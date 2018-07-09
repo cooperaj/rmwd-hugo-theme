@@ -1,0 +1,41 @@
+{{ define "main" }}
+<main aria-role="main">
+    <header class="hero is-medium is-info is-bold has-image"
+        {{- if .Params.coverimage -}}
+            style="background-image: url({{ ($.Resources.GetMatch (printf "*%s*" .Params.coverimage)).RelPermalink }});"
+        {{- else -}}
+            {{ $images := readDir "/public/images/covers" | shuffle | first 1 }}
+            style="background-image: url(/images/covers/{{ (index ($images) 0).Name }});"
+        {{- end -}}
+    >
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    {{- if .Params.Title }}
+                        {{ .Params.Title }}
+                    {{ else }}
+                        Tagged: {{ .Title }}
+                    {{ end -}}
+                </h1>
+            </div>
+        </div>
+    </header>
+    <section class="articles">
+        <div class="container">
+            <div class="column is-8 is-offset-2">
+                {{ $paginator := .Paginator }}
+                {{ range $paginator.Pages }}
+                    {{ .Render "summary" }}
+                {{ end }}
+            </div>
+        </div>
+    </section>
+    <div class="section has-text-centered">
+        <div class="container">
+            <div class="column is-8 is-offset-2">
+                {{ partial "pagination.html" $paginator }}
+            </div>
+        </div>
+    </div>
+</main>
+{{ end }}

@@ -1,0 +1,30 @@
+{{ define "main" }}
+<main aria-role="main">
+    <header class="hero is-medium is-bold has-image">
+        <div class="hero-body container">
+            <div class="has-text-centered">
+                {{ with .Site.Params.description }}
+                <h1 class="title">{{.}}</h1>
+                {{ end }}
+            </div>
+        </div>
+    </header>
+    <section class="articles">
+        <div class="container">
+            <div class="column is-8 is-offset-2">
+                {{ $paginator := .Paginate (where .Data.Pages "Section" "in" (slice "post" "insta")) }}
+                {{ range $paginator.Pages }}
+                    {{ .Render "summary" }}
+                {{ end }}
+            </div>
+        </div>
+    </section>
+    <div class="section has-text-centered">
+        <div class="container">
+            <div class="column is-8 is-offset-2">
+                {{ partial "pagination.html" $paginator }}
+            </div>
+        </div>
+    </div>
+</main>
+{{ end }}

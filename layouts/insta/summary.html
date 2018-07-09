@@ -1,0 +1,27 @@
+<article class="post">
+    <div class="post-image">
+        <figure class="image {{ if .Params.ratio }}is-{{ .Params.ratio }}{{ else }}is-4by3{{ end }}">
+            {{ if (findRE "(^|:)//" .Params.image) -}} <!-- If image link is a URL with protocol or two leading slashes, use just that unmodified. -->
+                <img src="{{ .Params.image }}"
+            {{- else -}}
+                {{ $image := .Resources.GetMatch (printf "*%s*" .Params.image) }}
+                {{ $webSafeImage := $image.Resize "1200x Lanczos" }}
+                <img src="{{ $webSafeImage.RelPermalink }}" data-orig-image="{{ $image.RelPermalink }}"
+            {{- end }}
+            alt="{{ .Title | safeHTMLAttr }}">
+            <figcaption class="post-image-caption is-size-7">{{ .Params.description }}</figcaption>
+        </figure>
+    </div>
+    {{ if .Title }}
+    <div class="post-body is-insta">
+        <p>
+            {{ .Title }}
+            {{ with .Params.tags }}
+                {{ range . }}
+                    <a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">#{{ . }}</a>
+                {{ end }}
+            {{ end }}
+        </p>
+    </div>
+    {{ end }}
+</article>

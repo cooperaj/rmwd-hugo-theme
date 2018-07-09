@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+@import url('https://fonts.googleapis.com/css?family=Raleway:300|Roboto');
+
+@import "./bulma";
+@import "./syntax";
+@import "./navbar";
+@import "./article";
+@import "./hero";
+@import "./pagination";
+
+$fa-font-path: '~@fortawesome/fontawesome-pro/webfonts';
+@import "~@fortawesome/fontawesome-pro/scss/fa-brands";
+@import "~@fortawesome/fontawesome-pro/scss/fontawesome";
+
+h1, h2, h3, h4, h5, h6,
+.title, .subtitle {
+    font-family: $header-sans-serif;
+    font-weight: $weight-light;
+}
+.content {
+    h1, h2, h3, h4, h5, h6 {
+        font-weight: $weight-light;
+    }
+}
+

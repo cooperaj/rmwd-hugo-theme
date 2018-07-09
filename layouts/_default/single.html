@@ -1,0 +1,63 @@
+{{ define "title" }}
+    {{ .Title }} &ndash; {{ .Site.Title }}
+{{ end }}
+{{ define "main" }}
+<main aria-role="main">
+    <header class="hero is-medium is-info is-bold {{ with .Params.coverimage }}has-image{{ end }}"
+        {{ with .Params.coverimage }}
+            style="background-image: url({{ ($.Resources.GetMatch (printf "images/%s*" .)).RelPermalink }});"
+        {{ end }}
+    >
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">{{ .Title }}</h1>
+                <ul id="tags">
+                    {{ range .Params.tags }}
+                    <li class="tag"><a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a></li>
+                    {{ end }}
+                </ul>
+            </div>
+        </div>
+    </header>
+    <section class="section articles">
+        <article class="container">
+            <div class="column is-8 is-offset-2">
+                <article class="post">
+                    <div class="post-header columns is-gapless">
+                        <div class="column">
+                            <p class="post-meta">{{ .Date.Format "Mon, Jan 2, 2006" }}</p>
+                        </div>
+                        <div class="column">
+                            <p class="post-meta has-text-right-tablet">{{ .FuzzyWordCount }} Words &mdash; {{ partial "reading-time" .ReadingTime }}</p>
+                        </div>
+                    </div>
+                    <div class="post-body">
+                        <hr />
+                        <div class="content">
+                            {{ .Content }}
+                        </div>
+                    </div>
+                    {{ with .Params.author }}
+                        {{ with $.Site.GetPage "section" "author" . }}
+                            <div class="post-footer">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <figure class="image is-64x64">
+                                            <img src="{{ (.Resources.GetMatch (printf "*%s*" .Params.photo)).RelPermalink }}" alt="Placeholder image">
+                                        </figure>
+                                    </div>
+                                    <div class="media-content">
+                                        <h5 class="title is-5">{{ .Params.name }}</h5>
+                                        {{ .Content }}
+                                    </div>
+                                </div>
+                            </div>
+                        {{ end }}
+                    {{ end }}
+                </article>
+            </div>
+        </article>
+    </section>
+    
+</main>
+{{ end }}

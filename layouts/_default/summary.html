@@ -1,0 +1,20 @@
+<article class="post">
+    <div class="post-body">
+        <header class="media">
+            <div class="media-content">
+                <h2 class="title is-size-4"><a href='{{ .Permalink }}'>{{ .Title }}</a> </h2>
+                <p class="subtitle is-size-6 post-meta">
+                    {{ .Date.Format "Mon, Jan 2, 2006" }} &mdash;
+                    {{ .FuzzyWordCount }} Words &mdash; 
+                    {{ partial "reading-time" .ReadingTime }}
+                </p>
+            </div>
+        </header>
+        <div class="content">
+            {{ .Summary }}
+        </div>
+        <footer>
+            <a href='{{ .Permalink }}'><nobr>Read more →</nobr></a>
+        </footer>
+    </div>
+</article>

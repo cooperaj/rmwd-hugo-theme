@@ -1,0 +1,85 @@
+main {
+    padding-top: $navbar-height;
+}
+
+sup.footnote-ref::before { 
+    display: inline-block; 
+    content: " "; 
+    margin-top: -($navbar-height + 1rem);
+    height: $navbar-height + 1rem; 
+    visibility: hidden; 
+    pointer-events: none;
+}
+
+.navbar {    
+    &.is-transparent {
+        background-color: $grey-darker;
+
+        .navbar-brand {
+            height: $navbar-height;
+        }
+    }
+
+    .navbar-item {
+        color: $white;
+
+        img {
+            max-height: 2.25rem; 
+        }
+    }
+
+    .navbar-burger {
+        color: $white;
+        height: $navbar-height;
+    }
+
+    .title {
+        font-size: $size-4;
+        color: $white;
+    }
+
+    a {
+        color: $white;
+    }
+}
+
+@include mobile() {
+    .navbar .title {
+        font-size: $size-5;
+    }
+}
+
+// teeny phones
+@include until(340px) {
+    .navbar .title {
+        font-size: $size-6;
+    }
+}
+
+@include from($desktop) {
+    main {
+        padding-top: 0;
+    }
+
+    .navbar {
+        transition: background-color $speed $easing;
+        
+        &.is-transparent {
+            background-color: transparent;
+            background-image: none;
+
+            .navbar-brand {
+                height: $navbar-desktop-height;
+                transition: height $speed $easing;
+            }
+            &.is-scrolled {
+                background-color: $grey-darker;
+
+                .navbar-brand {
+                    height: $navbar-height;
+                }
+            }
+        }
+    }
+}
+    
