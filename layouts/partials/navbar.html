@@ -20,6 +20,22 @@
                     About
                 </a>
                 {{ end }}
+                {{ with .Site.Params.linkedInName }}
+                <a href="https://www.linkedin.com/in/{{ . }}" class="navbar-item">
+                    <span class="icon is-medium">
+                        <i class="fab fa-linkedin fa-lg" aria-hidden="true"></i>
+                    </span>
+                    <span class="is-hidden-desktop">My LinkedIn profile</span>
+                </a>
+                {{ end }}
+                {{ with .Site.Params.keybaseName }}
+                <a href="https://keybase.io/{{ . }}" class="navbar-item">
+                    <span class="icon is-medium">
+                        <i class="fab fa-keybase fa-lg" aria-hidden="true"></i>
+                    </span>
+                    <span class="is-hidden-desktop">My Keybase profile</span>
+                </a>
+                {{ end }}
                 {{ with .Site.Params.twitterName }}
                 <a href="https://twitter.com/{{ . }}" class="navbar-item">
                     <span class="icon is-medium">
