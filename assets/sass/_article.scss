@@ -79,5 +79,9 @@ article {
                 border: 1px solid $white;
             }
         }
+
+        .post-comments {
+            @extend .card-content;
+        }
     }
 }

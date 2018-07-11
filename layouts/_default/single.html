@@ -54,6 +54,12 @@
                             </div>
                         {{ end }}
                     {{ end }}
+                    {{ if eq .Page.Type "post" }}
+                        <div class="post-comments">
+                            <h2 class="title is-4">Comments</h2>
+                            {{ partial "comments" . }}
+                        </div>      
+                    {{ end }}  
                 </article>
             </div>
         </article>
