@@ -1,36 +1,34 @@
 <!-- https://github.com/gohugoio/hugo/issues/4406 -->
 <!-- https://github.com/gohugoio/hugo/issues/4562 -->
 {{ $image := .Get "src" }}
-<figure{{ with .Get "class" }} class="{{ . }}"{{ end }}>
-    {{ if .Get "link"}}<a href="{{ .Get "link" }}"{{ with .Get "target" }} target="{{ . }}"{{ end }}{{ with .Get "rel" }} rel="{{ . }}"{{ end }}>{{ end }}
-        {{ if (findRE "(^|:)//" $image) -}} <!-- If image link is a URL with protocol or two leading slashes, use just that unmodified. -->
-            <img src="{{ $image }}"
-        {{- else -}}
-            {{ $resource := .Page.Resources.GetMatch (printf "*%s*" $image) }}
-            {{ $webSafeImage := $resource.Resize "1200x Lanczos" }}
-            <img src="{{ $webSafeImage.RelPermalink }}" data-orig-image="{{ $resource.RelPermalink }}"
-        {{- end }}
-            {{- if (or (.Get "alt") (.Get "caption")) -}}
-                {{- with .Get "alt"}}
-                    {{- printf " alt=\"%s\"" . | safeHTMLAttr -}}
-                {{- else -}}
-                    {{- printf " alt=\"%s\"" (.Get "caption" | markdownify | plainify) | safeHTMLAttr -}}
-                {{- end -}}
+{{ if (findRE "(^|:)//" $image) }}
+    {{ .Scratch.Set "imgSrc" $image }}
+{{ else }}    
+    {{ $resource := .Page.Resources.GetMatch (printf "*%s*" $image) }}
+    {{ .Scratch.Set "imgSrc" $resource.RelPermalink }}
+{{ end }}
+{{ $imgSrc := .Scratch.Get "imgSrc" }}
+<figure{{ with .Get "class" }} class="{{ . }}"{{ end }} itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+    <a href="{{ with .Get "link" }}{{.}}{{ else }}{{ $imgSrc | safeHTMLAttr }}{{ end }}" {{ with .Get "size" }}data-size="{{.}}"{{ end }} itemprop="contentUrl"> 
+        <img itemprop="thumbnail" src="{{ $imgSrc | safeHTMLAttr }}"
+        {{- if (or (.Get "alt") (.Get "caption")) -}}
+            {{- with .Get "alt"}}
+                {{- printf " alt=\"%s\"" . | safeHTMLAttr -}}
+            {{- else -}}
+                {{- printf " alt=\"%s\"" (.Get "caption" | markdownify | plainify) | safeHTMLAttr -}}
             {{- end -}}
-            {{- with .Get "width" }} width="{{ . }}"{{ end -}}
-            {{- with .Get "height" }} height="{{ . }}"{{ end -}}/> <!-- Closing img tag -->
-        {{- if .Get "link" }}</a>{{ end -}}
-        {{- if or (or (.Get "title") (.Get "caption")) (.Get "attr") -}}
-            <figcaption>
-                {{ if isset .Params "title" }}
-                    <h4>{{ .Get "title" }}</h4>
-                {{ end }}
-                {{ if (or (.Get "caption") (.Get "attr")) }}<p>
-                    {{ .Get "caption" | markdownify }}
-                    {{ with .Get "attrlink" }}<a href="{{ . }}"> {{ end }}
-                        {{ .Get "attr" | markdownify }}
-                        {{ if .Get "attrlink" }}</a>{{ end }}</p>
-                {{ end }}
-            </figcaption>
         {{- end -}}
+        {{- with .Get "width" }} width="{{ . }}"{{ end -}}
+        {{- with .Get "height" }} height="{{ . }}"{{ end -}}/> <!-- Closing img tag -->
+    </a>
+    {{- if or (or (.Get "caption")) (.Get "attr") -}}
+        <figcaption>
+            {{ if (or (.Get "caption") (.Get "attr")) }}<p>
+                {{ .Get "caption" | markdownify }}
+                {{ with .Get "attrlink" }}<a href="{{ . }}"> {{ end }}
+                    {{ .Get "attr" | markdownify }}
+                    {{ if .Get "attrlink" }}</a>{{ end }}</p>
+            {{ end }}
+        </figcaption>
+    {{- end -}}
 </figure>
