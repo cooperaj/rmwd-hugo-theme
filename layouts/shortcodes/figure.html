@@ -5,12 +5,22 @@
     {{ .Scratch.Set "imgSrc" $image }}
 {{ else }}    
     {{ $resource := .Page.Resources.GetMatch (printf "*%s*" $image) }}
+    {{ $smallResource := $resource.Resize "500x Lanczos" }}
+    {{ $mediumResource := $resource.Resize "850x Lanczos" }}
+    {{ $largeResource := $resource.Resize "1200x Lanczos" }}
     {{ .Scratch.Set "imgSrc" $resource.RelPermalink }}
+    {{ .Scratch.Set "s-imgSrc" $smallResource.RelPermalink }}
+    {{ .Scratch.Set "m-imgSrc" $mediumResource.RelPermalink }}
+    {{ .Scratch.Set "l-imgSrc" $largeResource.RelPermalink }}
 {{ end }}
 {{ $imgSrc := .Scratch.Get "imgSrc" }}
 <figure{{ with .Get "class" }} class="{{ . }}"{{ end }} itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
     <a href="{{ with .Get "link" }}{{.}}{{ else }}{{ $imgSrc | safeHTMLAttr }}{{ end }}" {{ with .Get "size" }}data-size="{{.}}"{{ end }} itemprop="contentUrl"> 
         <img itemprop="thumbnail" src="{{ $imgSrc | safeHTMLAttr }}"
+        {{ if .Scratch.Get "s-imgSrc" -}}
+            srcset="{{ .Scratch.Get "l-imgSrc" }} 1200w, {{ .Scratch.Get "m-imgSrc" }} 850w, {{ .Scratch.Get "s-imgSrc" }} 500w"
+            sizes="(min-width: 769px) 60vw, 85vw"
+        {{- end -}}
         {{- if (or (.Get "alt") (.Get "caption")) -}}
             {{- with .Get "alt"}}
                 {{- printf " alt=\"%s\"" . | safeHTMLAttr -}}
