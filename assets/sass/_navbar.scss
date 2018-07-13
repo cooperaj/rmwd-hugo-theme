@@ -2,15 +2,6 @@ main {
     padding-top: $navbar-height;
 }
 
-sup.footnote-ref::before { 
-    display: inline-block; 
-    content: " "; 
-    margin-top: -($navbar-height + 1rem);
-    height: $navbar-height + 1rem; 
-    visibility: hidden; 
-    pointer-events: none;
-}
-
 .navbar {    
     &.is-transparent {
         background-color: $grey-darker;

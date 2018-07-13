@@ -1,17 +1,29 @@
 'use strict';
 
+/**
+ * Class that handles everything related to the navbar on the website.
+ * 
+ * Currently handles;
+ *   1) The change of styles from transparent to not when page is scrolled.
+ *   2) The opening and closing of the menu on mobile devices.
+ *   3) The offsetting of anchor links so the navbar does not occlude them.
+ */
 export default class {
     constructor(element) {
         this.navbar = element;
 
         if (this.navbar !== null) {
-            this._scrollInit();
+            this._navbarInit();
         }
     }
 
-    _scrollInit() {
-        window.onscroll = evt => this._scrollEvent(evt)
-        document.addEventListener('DOMContentLoaded', evt => this._navbarEvent(evt))
+    _navbarInit() {
+        window.addEventListener('hashchange', evt => this._anchorOffset(evt));
+        window.addEventListener('load', evt => {
+            if (window.location.hash) this._anchorOffset(evt);
+        });
+        window.addEventListener('scroll', evt => this._scrollEvent(evt));
+        document.addEventListener('DOMContentLoaded', evt => this._navbarEvent(evt));
     }
 
     _scrollEvent(evt) {
@@ -20,6 +32,11 @@ export default class {
         } else {
             this.navbar.classList.remove("is-scrolled");
         }
+    }
+
+    _anchorOffset(evt) {
+        var hh = this.navbar.clientHeight;
+        scrollBy(0, hh - (hh*2));
     }
 
     _navbarEvent(evt) {
