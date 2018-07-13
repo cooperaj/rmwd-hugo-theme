@@ -28,9 +28,9 @@ export default class {
 
     _scrollEvent(evt) {
         if (document.body.scrollTop > 5 || document.documentElement.scrollTop > 5) {
-            this.navbar.classList.add("is-scrolled");
+            this.navbar.classList.add('is-scrolled');
         } else {
-            this.navbar.classList.remove("is-scrolled");
+            this.navbar.classList.remove('is-scrolled');
         }
     }
 
