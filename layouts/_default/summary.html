@@ -13,8 +13,10 @@
         <div class="content">
             {{ .Summary }}
         </div>
+        {{ if .Truncated }}
         <footer>
             <a href='{{ .Permalink }}'><nobr>Read more →</nobr></a>
         </footer>
+        {{ end }}
     </div>
 </article>
