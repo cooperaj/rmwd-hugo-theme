@@ -1,13 +1,7 @@
 {{ define "main" }}
 <main aria-role="main">
-    <header class="hero is-medium is-info is-bold has-image"
-        {{- if .Params.coverimage -}}
-            style="background-image: url({{ ($.Resources.GetMatch (printf "*%s*" .Params.coverimage)).RelPermalink }});"
-        {{- else -}}
-            {{ $images := readDir "/public/images/covers" | shuffle | first 1 }}
-            style="background-image: url(/images/covers/{{ (index ($images) 0).Name }});"
-        {{- end -}}
-    >
+    {{ partial "responsive-cover.html" . }}
+    <header class="hero is-medium is-info is-bold has-image">
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">

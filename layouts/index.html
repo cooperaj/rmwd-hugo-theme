@@ -1,8 +1,9 @@
 {{ define "main" }}
 <main aria-role="main">
+    {{ partial "responsive-cover.html" . }}
     <header class="hero is-medium is-bold has-image">
-        <div class="hero-body container">
-            <div class="has-text-centered">
+        <div class="hero-body">
+            <div class="container has-text-centered">
                 {{ with .Site.Params.description }}
                 <h1 class="title">{{.}}</h1>
                 {{ end }}

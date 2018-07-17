@@ -1,0 +1,22 @@
+{{- $scratch := newScratch -}}
+{{- if .Params.coverimage -}}
+    {{ $scratch.Set "image" (.Resources.GetMatch (printf "*%s*" .Params.coverimage)) }}
+{{- else -}}
+    {{ with .Site.GetPage "page" "media/covers" }}
+        {{ $scratch.Set "image" (index (.Resources.ByType "image" | shuffle | first 1) 0) }}
+    {{ end }}
+{{- end -}}
+{{- with $scratch.Get "image" -}}
+    {{- $mImgSrc := (.Resize "1000x Lanczos").RelPermalink -}}
+    {{- $lImgSrc := (.Resize "2000x Lanczos").RelPermalink -}}
+    <style>
+        .hero.is-bold.has-image {
+            background-image: url({{ $mImgSrc }});
+        }
+        @media (min-width: 769px) {
+            .hero.is-bold.has-image {
+                background-image: url({{ $lImgSrc }});
+            }
+        }
+    </style>
+{{- end -}}
