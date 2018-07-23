@@ -38,7 +38,7 @@
                         </div>
                     </div>
                     {{ with .Params.author }}
-                        {{ with $.Site.GetPage "section" "author" . }}
+                        {{ with $.Site.GetPage ( printf "author/%s" . ) }}
                             <div class="post-footer">
                                 <div class="media">
                                     <div class="media-left">
