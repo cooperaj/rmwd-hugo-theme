@@ -41,12 +41,7 @@
   "publisher": {
     "@type": "Organization",
     "name": "{{ .Site.Title }}",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "{{ "/images/icon-vector.svg" | absURL }}",
-      "width": 64,
-      "height": 64
-    }
+    "logo": "{{ "/images/icon-vector.svg" | absURL }}"
   },
   {{ if .Params.author -}}
   "author": {
