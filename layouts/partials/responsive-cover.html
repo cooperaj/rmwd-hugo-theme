@@ -2,7 +2,7 @@
 {{- if .Params.coverimage -}}
     {{ $scratch.Set "image" (.Resources.GetMatch (printf "*%s*" .Params.coverimage)) }}
 {{- else -}}
-    {{ with .Site.GetPage "page" "media/covers" }}
+    {{ with .Site.GetPage "media/covers" }}
         {{ $scratch.Set "image" (index (.Resources.ByType "image" | shuffle | first 1) 0) }}
     {{ end }}
 {{- end -}}
