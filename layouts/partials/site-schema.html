@@ -8,13 +8,20 @@
     "@type": "WebPage",
     "@id": "{{ .Permalink | absURL }}"
   },
-  {{ with .Params.coverimage -}}
+  {{ if .Params.coverimage -}}
   "image": {
     "@type": "ImageObject",
-    "url": "{{ ($.Resources.GetMatch (printf "images/%s*" .)).Permalink | absURL }}"
+    "url": "{{ ($.Resources.GetMatch (printf "images/%s*" .Params.coveriomage)).Permalink | absURL }}"
   },
+  {{- else -}}
+  {{- with .Site.GetPage "media/covers" -}}
+    "image": {
+      "@type": "ImageObject",
+      "url": "{{ (index (.Resources.ByType "image" | shuffle | first 1) 0).Permalink | absURL }}"
+    },
   {{- end -}}
-  {{ with .Params.tags -}}
+  {{- end -}}
+  {{- with .Params.tags -}}
   "keywords": "{{ delimit . ", " }}",
   {{- end }}
   "wordcount": {{ .WordCount }},
@@ -28,8 +35,19 @@
   "dateModified": "{{ .Format "2006-01-02T15:04:05-07:00" | safeHTML }}",
   {{- end }}
   {{ with .Site.Copyright -}}
-  "license": "{{ . | safeHTML }} {{ now.Format "2006" }}",
+  "copyrightHolder": "{{ . }}",
+  "copyrightYear": "{{ now.Format "2006" }}",
   {{- end }}
+  "publisher": {
+    "@type": "Organization",
+    "name": "{{ .Site.Title }}",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ "/images/icon-vector.svg" | absURL }}",
+      "width": 64,
+      "height": 64
+    }
+  },
   {{ if .Params.author -}}
   "author": {
     "@type": "Person",
@@ -38,7 +56,7 @@
     {{- end }}
   },
   {{ end -}}
-  "description": "{{ .Description }}"
+  "description": "{{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ end }}{{ end }}"
 }
 </script>
 {{- end }}
