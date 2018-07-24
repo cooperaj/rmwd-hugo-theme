@@ -20,8 +20,8 @@
       "url": "{{ (index (.Resources.ByType "image" | shuffle | first 1) 0).Permalink | absURL }}"
     },
   {{- end -}}
-  {{- end -}}
-  {{- with .Params.tags -}}
+  {{- end }}
+  {{ with .Params.tags -}}
   "keywords": "{{ delimit . ", " }}",
   {{- end }}
   "wordcount": {{ .WordCount }},
@@ -35,7 +35,12 @@
   "dateModified": "{{ .Format "2006-01-02T15:04:05-07:00" | safeHTML }}",
   {{- end }}
   {{ with .Site.Copyright -}}
-  "copyrightHolder": "{{ . }}",
+  "copyrightHolder": {
+    "@type": "Person",
+    {{ with $.Site.GetPage ( printf "author/%s" . ) -}}
+    "name": "{{ .Params.name }}"
+    {{- end }}
+  },
   "copyrightYear": "{{ now.Format "2006" }}",
   {{- end }}
   "publisher": {

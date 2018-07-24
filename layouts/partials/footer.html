@@ -1,8 +1,12 @@
 <footer class="footer">
     <div class="content has-text-centered">
         <p>
-            &copy; Copyright {{ .Site.Copyright }} {{ now.Format "2006" }}
-            &bullet; 
+            {{ with .Site.Copyright -}}
+              {{- with $.Site.GetPage ( printf "author/%s" . ) -}}
+                &copy; Copyright {{ .Params.name }} {{ now.Format "2006" }}
+                &bullet; 
+              {{- end -}}
+            {{- end -}}
             Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a>
         </p>
     </div>
