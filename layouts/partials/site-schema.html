@@ -11,7 +11,7 @@
   {{ if .Params.coverimage -}}
   "image": {
     "@type": "ImageObject",
-    "url": "{{ ($.Resources.GetMatch (printf "images/%s*" .Params.coveriomage)).Permalink | absURL }}"
+    "url": "{{ ($.Resources.GetMatch (printf "images/%s*" .Params.coverimage)).Permalink | absURL }}"
   },
   {{- else -}}
   {{- with .Site.GetPage "media/covers" -}}
