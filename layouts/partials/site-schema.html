@@ -6,19 +6,19 @@
   "headline": "{{ .Title }}",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "{{ .Permalink }}"
+    "@id": "{{ .Permalink | absURL }}"
   },
   {{ with .Params.coverimage -}}
   "image": {
     "@type": "ImageObject",
-    "url": "{{ ($.Resources.GetMatch (printf "images/%s*" .)).Permalink }}"
+    "url": "{{ ($.Resources.GetMatch (printf "images/%s*" .)).Permalink | absURL }}"
   },
   {{- end -}}
   {{ with .Params.tags -}}
   "keywords": "{{ delimit . ", " }}",
   {{- end }}
   "wordcount": {{ .WordCount }},
-  "url": "{{ .Permalink }}",
+  "url": "{{ .Permalink | absURL }}",
   {{ if not .PublishDate.IsZero -}}
   "datePublished": "{{ .PublishDate.Format "2006-01-02T15:04:05-07:00" | safeHTML }}",
   {{- else if not .Date.IsZero -}}
