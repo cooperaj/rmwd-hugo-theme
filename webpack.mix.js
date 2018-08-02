@@ -1,4 +1,5 @@
-let mix = require('laravel-mix');
+const mix = require('laravel-mix');
+const purgecss = require('@fullhuman/postcss-purgecss');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,22 +13,31 @@ let mix = require('laravel-mix');
  */
 
 mix.options({
-    autoprefixer: {
-        options: {
-            browsers: [
-                '> 1%',
-                'last 2 versions'
-            ]
-        }
-    }})
-   .sass('assets/sass/main.scss', 'css/')
-   .js('assets/app.js', 'javascript/')
-   .copyDirectory('assets/icons', 'static/')
-   .copyDirectory('assets/images', 'static/images')
-   .sourceMaps()
-   .browserSync('localhost:1313')
-   .setPublicPath('static/')
-   .setResourceRoot('/');
+        autoprefixer: {
+            options: {
+                browsers: [
+                    '> 1%',
+                    'last 2 versions'
+                ]
+            }
+        },
+        postCss: [
+            purgecss({
+                content: ['./layouts/**/*.html'],
+                whitelist: [
+                    'is-active', 'is-scrolled', 'highlight'
+                ]
+            })
+        ] 
+    })
+    .sass('assets/sass/main.scss', 'css/')
+    .js('assets/app.js', 'javascript/')
+    .copyDirectory('assets/icons', 'static/')
+    .copyDirectory('assets/images', 'static/images')
+    .sourceMaps()
+    .browserSync('localhost:1313')
+    .setPublicPath('static/')
+    .setResourceRoot('/');
 
 // Full API
 // mix.js(src, output);
