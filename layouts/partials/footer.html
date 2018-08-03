@@ -5,7 +5,7 @@
               {{- with $.Site.GetPage ( printf "author/%s" . ) -}}
                 &copy; Copyright {{ .Params.name }} {{ now.Format "2006" }}
                 &bullet; 
-              {{- end -}}
+              {{ end -}}
             {{- end -}}
             Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a>
         </p>
