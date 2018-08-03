@@ -1,25 +1,41 @@
 <!-- https://github.com/gohugoio/hugo/issues/4406 -->
 <!-- https://github.com/gohugoio/hugo/issues/4562 -->
-{{ $image := .Get "src" }}
-{{ if (findRE "(^|:)//" $image) }}
-    {{ .Scratch.Set "imgSrc" $image }}
-{{ else }}    
-    {{ $resource := .Page.Resources.GetMatch (printf "*%s*" $image) }}
-    {{ $smallResource := $resource.Resize "500x Lanczos" }}
-    {{ $mediumResource := $resource.Resize "850x Lanczos" }}
-    {{ $largeResource := $resource.Resize "1200x Lanczos" }}
-    {{ .Scratch.Set "imgSrc" $resource.RelPermalink }}
-    {{ .Scratch.Set "s-imgSrc" $smallResource.RelPermalink }}
-    {{ .Scratch.Set "m-imgSrc" $mediumResource.RelPermalink }}
-    {{ .Scratch.Set "l-imgSrc" $largeResource.RelPermalink }}
-{{ end }}
-{{ $imgSrc := .Scratch.Get "imgSrc" }}
-<figure{{ with .Get "class" }} class="{{ . }}"{{ end }} itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+{{- $image := .Get "src" -}}
+{{- if (findRE "(^|:)//" $image) -}}
+    {{- .Scratch.Set "imgSrc" $image -}}
+{{- else -}}    
+    {{- $resource := .Page.Resources.GetMatch (printf "*%s*" $image) -}}
+    {{- if .Parent -}} <!-- am inside a gallery -->
+        {{- $smallResource := $resource.Fill "150x150 smart" -}}
+        {{- $mediumResource := $resource.Fill "275x275 smart" -}}
+        {{- $largeResource := $resource.Fill "380x380 smart" -}}
+        {{- .Scratch.Set "imgSrc" $resource.RelPermalink -}}
+        {{- .Scratch.Set "s-imgSrc" $smallResource.RelPermalink -}}
+        {{- .Scratch.Set "m-imgSrc" $mediumResource.RelPermalink -}}
+        {{- .Scratch.Set "l-imgSrc" $largeResource.RelPermalink -}}
+        {{- .Scratch.Set "class" "is-square" -}}
+    {{- else -}}
+        {{- $smallResource := $resource.Resize "500x Lanczos" -}}
+        {{- $mediumResource := $resource.Resize "850x Lanczos" -}}
+        {{- $largeResource := $resource.Resize "1200x Lanczos" -}}
+        {{- .Scratch.Set "imgSrc" $resource.RelPermalink -}}
+        {{- .Scratch.Set "s-imgSrc" $smallResource.RelPermalink -}}
+        {{- .Scratch.Set "m-imgSrc" $mediumResource.RelPermalink -}}
+        {{- .Scratch.Set "l-imgSrc" $largeResource.RelPermalink -}}
+    {{- end -}}
+{{- end -}}
+{{- $imgSrc := .Scratch.Get "imgSrc" -}}
+{{- if .Parent -}}<div class="column is-half-mobile is-one-quarter-tablet is-2-desktop">{{- end -}}
+<figure{{ with .Get "class" }} class="{{ . }}"{{ else }} class="{{ .Scratch.Get "class" }}"{{ end }} itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
     <a href="{{ with .Get "link" }}{{.}}{{ else }}{{ $imgSrc }}{{ end }}" {{ with .Get "size" }}data-size="{{.}}"{{ end }} itemprop="contentUrl"> 
         <img itemprop="thumbnail" src="{{ $imgSrc }}"
         {{ if .Scratch.Get "s-imgSrc" -}}
-            srcset="{{ .Scratch.Get "l-imgSrc" }} 1200w, {{ .Scratch.Get "m-imgSrc" }} 850w, {{ .Scratch.Get "s-imgSrc" }} 500w"
-            sizes="(min-width: 769px) 70vw, 100vw"
+            {{- if .Parent -}}
+                srcset="{{ .Scratch.Get "l-imgSrc" }} 380w, {{ .Scratch.Get "m-imgSrc" }} 275w, {{ .Scratch.Get "s-imgSrc" }} 150w"
+            {{- else -}}
+                srcset="{{ .Scratch.Get "l-imgSrc" }} 1200w, {{ .Scratch.Get "m-imgSrc" }} 850w, {{ .Scratch.Get "s-imgSrc" }} 500w"
+            {{- end -}}
+                sizes="(min-width: 769px) 70vw, 100vw"
         {{- end -}}
         {{- if (or (.Get "alt") (.Get "caption")) -}}
             {{- with .Get "alt"}}
@@ -28,10 +44,13 @@
                 {{- printf " alt=\"%s\"" (.Get "caption" | markdownify | plainify) | safeHTMLAttr -}}
             {{- end -}}
         {{- end -}}
+        {{- if .Get "title" -}}
+            {{- printf " title=\"%s\"" (.Get "title") | safeHTMLAttr -}}
+        {{- end -}}
         {{- with .Get "width" }} width="{{ . }}"{{ end -}}
         {{- with .Get "height" }} height="{{ . }}"{{ end -}}/> <!-- Closing img tag -->
     </a>
-    {{- if or (or (.Get "caption")) (.Get "attr") -}}
+    {{- if (or (.Get "caption") (.Get "attr")) -}}
         <figcaption>
             {{ if (or (.Get "caption") (.Get "attr")) }}<p>
                 {{ .Get "caption" | markdownify }}
@@ -42,3 +61,4 @@
         </figcaption>
     {{- end -}}
 </figure>
+{{- if .Parent -}}</div>{{- end -}} <!-- Closing gallery div -->

@@ -59,9 +59,23 @@ article {
             }
 
             .content figure {
-                margin-top: 1rem;
+                margin-top: 1.5rem;
                 margin-left: 0;
                 margin-right: 0;
+            }
+
+            .content .gallery {
+                margin-top: 1.5rem;
+
+                figure {
+                    margin: 0;
+
+                    img {
+                        box-shadow: $card-shadow;
+
+                        padding: 0.25rem;
+                    }
+                }
             }
         }
 
