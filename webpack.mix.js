@@ -26,6 +26,9 @@ mix.options({
                 content: ['./layouts/**/*.html'],
                 whitelist: [
                     'is-active', 'is-scrolled', 'highlight'
+                ],
+                whitelistPatternsChildren: [
+                    /content$/
                 ]
             })
         ] 
