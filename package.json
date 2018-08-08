@@ -13,9 +13,9 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@fortawesome/fontawesome-pro": "^5.1.0",
+    "@fortawesome/fontawesome-pro": "^5.2.0",
     "@fullhuman/postcss-purgecss": "^1.0.1",
-    "browser-sync": "^2.24.5",
+    "browser-sync": "^2.24.6",
     "browser-sync-webpack-plugin": "^2.0.1",
     "bulma": "^0.7.1",
     "laravel-mix": "^2.1.11"
