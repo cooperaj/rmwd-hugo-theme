@@ -1,0 +1,31 @@
+{{ define "main" }}
+<main aria-role="main">
+    {{ partial "responsive-cover.html" . }}
+    <header class="hero is-medium is-info is-bold has-image">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    {{- if .Params.Title }}
+                        {{ .Params.Title }}
+                    {{ else }}
+                        Tagged: {{ .Title }}
+                    {{ end -}}
+                </h1>
+            </div>
+        </div>
+    </header>
+    <section class="section articles">
+        <article class="container">
+            <div class="column is-8 is-offset-2">
+                <article class="post">
+                    <div class="post-body">
+                        <div class="content">
+                            {{ .Content }}
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </article>
+    </section>
+</main>
+{{ end }}
