@@ -3,11 +3,8 @@
 {{ end }}
 {{ define "main" }}
 <main aria-role="main">
-    <header class="hero is-medium is-info is-bold {{ with .Params.coverimage }}has-image{{ end }}"
-        {{ with .Params.coverimage }}
-            style="background-image: url({{ ($.Resources.GetMatch (printf "images/%s*" .)).RelPermalink }});"
-        {{ end }}
-    >
+    {{ partial "responsive-cover.html" . }}
+    <header class="hero is-medium is-info is-bold has-image">
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">{{ .Title | safeHTML }}</h1>
