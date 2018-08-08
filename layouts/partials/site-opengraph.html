@@ -1,0 +1,18 @@
+{{ template "_internal/opengraph.html" . }}
+
+{{- if .IsHome -}}
+    {{- with .Site.Params.cover -}}
+        <meta property="og:image" content="{{ printf "%s" . | absURL }}">
+    {{- end }}
+{{- else if .IsPage -}}
+    {{- if .Params.coverimage -}}
+        {{- $image := ( $.Resources.GetMatch ( printf "%s*" .Params.coverimage ) ) -}}
+        <meta property="og:image" content="{{ ( $image.Resize "500x Lanczos" ).Permalink }}">
+    {{- else -}}
+        {{- with .Site.GetPage "media/covers" -}}
+            {{- $image := (index (.Resources.ByType "image" | shuffle | first 1) 0) -}}
+            <meta property="og:image" content="{{ ( $image.Resize "500x Lanczos" ).Permalink | absURL }}">
+        {{- end }}
+    {{- end -}}
+{{- end -}}
+    
