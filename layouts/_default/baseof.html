@@ -16,6 +16,7 @@
     {{ partial "site-opengraph" . }}
 
     <link rel="stylesheet" type="text/css" href="{{ "css/main.css" | relURL }}">
+    {{ template "_internal/google_analytics_async.html" . }}
   </head>
   <body>
     {{ partial "navbar" . }}
