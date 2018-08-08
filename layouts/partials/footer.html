@@ -1,12 +1,16 @@
 <footer class="footer">
     <div class="content has-text-centered">
         <p>
-            {{ with .Site.Copyright -}}
-              {{- with $.Site.GetPage ( printf "author/%s" . ) -}}
+            {{- with .Site.Copyright -}}
+              {{- with $.Site.GetPage ( printf "author/%s" . ) }}
                 &copy; Copyright {{ .Params.name }} {{ now.Format "2006" }}
                 &bullet; 
               {{ end -}}
             {{- end -}}
+            {{- with .GetPage "/privacy" -}}
+              <a href="{{ .RelPermalink  }}">Privacy </a>
+              &bullet;
+            {{ end -}}
             Powered by <a href="https://gohugo.io/" target="_blank">Hugo</a>
         </p>
     </div>
