@@ -1,8 +1,6 @@
 ---
 date: {{ .Date }}
+description:
 draft: true
-image: 
-ratio: 4by3
-tags: []
 title: "{{ replace .Name "-" " " | title }}"
 ---
