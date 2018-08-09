@@ -2,7 +2,7 @@
     {{ .Title | safeHTML }} &ndash; {{ .Site.Title }}
 {{ end }}
 {{ define "main" }}
-<main aria-role="main">
+<main role="main">
     {{ partial "responsive-cover.html" . }}
     <header class="hero is-medium is-info is-bold has-image">
         <div class="hero-body">
