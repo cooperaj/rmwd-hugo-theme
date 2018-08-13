@@ -8,7 +8,7 @@
                     {{- if .Params.Title }}
                         {{ .Params.Title }}
                     {{ else }}
-                        Tagged: {{ .Title }}
+                        {{ humanize .Data.Singular }}: {{ .Title }}
                     {{ end -}}
                 </h1>
             </div>
@@ -17,6 +17,7 @@
     <section class="articles">
         <div class="container">
             <div class="column is-8 is-offset-2">
+                {{ printf "%#v" .Data.Singular }}
                 {{ $paginator := .Paginator }}
                 {{ range $paginator.Pages }}
                     {{ .Render "summary" }}
