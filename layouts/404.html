@@ -1,7 +1,31 @@
-{{ define "main"}}
+{{ define "main" }}
 <main role="main">
-    <div>
-        <h1 id="title"><a href="{{ "/" | relURL }}">Go Home</a></h1>
-    </div>
+    {{ partial "responsive-cover.html" . }}
+    <header class="hero is-medium is-info is-bold has-image">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    404 Not Found
+                </h1>
+            </div>
+        </div>
+    </header>
+    <section class="section articles">
+        <article class="container">
+            <div class="column is-8 is-offset-2">
+                <article class="post">
+                    <div class="post-body">
+                        <div class="content">
+                            <p class="haiku">
+                                I'm sorry to say<br/>
+                                That we could not find your item<br/>
+                                Please visit the <a href="/">main page</a>
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </article>
+    </section>
 </main>
 {{ end }}
