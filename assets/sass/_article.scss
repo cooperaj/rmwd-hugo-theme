@@ -54,22 +54,34 @@ article {
                 font-size: $size-5;
             }
 
-            .content figure {
-                margin-top: 1.5rem;
-                margin-left: 0;
-                margin-right: 0;
-            }
-
-            .content .gallery {
-                margin-top: 1.5rem;
-
+            .content {
                 figure {
-                    margin: 0;
+                    margin-top: 1.5rem;
+                    margin-left: 0;
+                    margin-right: 0;
+                }
 
-                    img {
-                        box-shadow: $card-shadow;
+                .gallery {
+                    margin-top: 1.5rem;
+    
+                    figure {
+                        margin: 0;
+    
+                        img {
+                            box-shadow: $card-shadow;
+                            padding: 0.25rem;
+                        }
+                    }
+                }
 
-                        padding: 0.25rem;
+                .haiku {
+                    text-align: center;
+                    font-style: italic;
+                    font-size: $size-5;
+                    font-weight: $weight-light;
+
+                    @include from($tablet) {
+                        font-size: $size-3;
                     }
                 }
             }
