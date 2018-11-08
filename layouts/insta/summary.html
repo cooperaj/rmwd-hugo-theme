@@ -3,13 +3,15 @@
     {{- .Scratch.Set "imgSrc" $image -}}
 {{- else -}}    
     {{- $resource := .Page.Resources.GetMatch (printf "*%s*" $image) -}}
-    {{- $smallResource := $resource.Resize "500x Lanczos" -}}
-    {{- $mediumResource := $resource.Resize "850x Lanczos" -}}
-    {{- $largeResource := $resource.Resize "1200x Lanczos" -}}
-    {{- .Scratch.Set "imgSrc" $resource.RelPermalink -}}
-    {{- .Scratch.Set "s-imgSrc" $smallResource.RelPermalink -}}
-    {{- .Scratch.Set "m-imgSrc" $mediumResource.RelPermalink -}}
-    {{- .Scratch.Set "l-imgSrc" $largeResource.RelPermalink -}}
+    {{- if $resource -}}
+        {{- $smallResource := $resource.Resize "500x Lanczos" -}}
+        {{- $mediumResource := $resource.Resize "850x Lanczos" -}}
+        {{- $largeResource := $resource.Resize "1200x Lanczos" -}}
+        {{- .Scratch.Set "imgSrc" $resource.RelPermalink -}}
+        {{- .Scratch.Set "s-imgSrc" $smallResource.RelPermalink -}}
+        {{- .Scratch.Set "m-imgSrc" $mediumResource.RelPermalink -}}
+        {{- .Scratch.Set "l-imgSrc" $largeResource.RelPermalink -}}
+    {{- end -}}
 {{- end -}}
 {{- $imgSrc := .Scratch.Get "imgSrc" -}}
 <article class="post">
