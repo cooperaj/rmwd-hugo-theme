@@ -9,9 +9,9 @@
             <div class="container">
                 <h1 class="title">{{ .Title | safeHTML }}</h1>
                 <ul id="tags">
-                    {{- range .Params.tags }}
-                    <li class="tag"><a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a></li>
-                    {{- end }}
+                    {{- range .Params.tags -}}
+                    <li class="tag"><a href="{{ "/tags/" | relLangURL }}{{ . | urlize }}">{{ . }}</a></li>&nbsp;
+                    {{- end -}}
                 </ul>
             </div>
         </div>
