@@ -90,7 +90,7 @@
     {{- end }}
   },
   {{ end -}}
-  "description": "{{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ end }}{{ end }}"
+  "description": "{{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary | plainify }}{{ end }}{{ end }}"
 }
 </script>
 {{- end }}
