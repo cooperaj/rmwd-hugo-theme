@@ -28,10 +28,11 @@ mix.options({
                     'is-active', 'is-scrolled', 'highlight'
                 ],
                 whitelistPatternsChildren: [
-                    /content$/
+                    /content$/,
+                    /viewer-.*/
                 ]
             })
-        ] 
+        ]
     })
     .sass('assets/sass/main.scss', 'css/')
     .js('assets/app.js', 'javascript/')
