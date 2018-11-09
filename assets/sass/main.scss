@@ -13,6 +13,8 @@ $fa-font-path: '~@fortawesome/fontawesome-pro/webfonts';
 @import "~@fortawesome/fontawesome-pro/scss/brands";
 @import "~@fortawesome/fontawesome-pro/scss/fontawesome";
 
+@import "~viewerjs/dist/viewer.css";
+
 h1, h2, h3, h4, h5, h6,
 .title, .subtitle {
     font-family: $header-sans-serif;
