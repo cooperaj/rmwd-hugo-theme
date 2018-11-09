@@ -21,6 +21,7 @@ export default class {
         window.addEventListener('hashchange', evt => this._anchorOffset(evt));
         window.addEventListener('load', evt => {
             if (window.location.hash) this._anchorOffset(evt);
+            this._scrollEvent(evt);
         });
         window.addEventListener('scroll', evt => this._scrollEvent(evt));
         document.addEventListener('DOMContentLoaded', evt => this._navbarEvent(evt));
@@ -40,24 +41,19 @@ export default class {
     }
 
     _navbarEvent(evt) {
-        // Get all "navbar-burger" elements
-        var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+        // Get the "navbar-burger" element
+        const navbarBurger = document.querySelector('.navbar-burger');
 
-        // Check if there are any navbar burgers
-        if ($navbarBurgers.length > 0) {
+        // Check if there is a navbar burger
+        if (navbarBurger !== undefined) {
+            navbarBurger.addEventListener('click', evt => {
 
-            // Add a click event on each of them
-            $navbarBurgers.forEach(function ($el) {
-                $el.addEventListener('click', function () {
+                // Get the target from the "data-target" attribute
+                var target = document.getElementById(navbarBurger.dataset.target);
 
-                    // Get the target from the "data-target" attribute
-                    var target = $el.dataset.target;
-                    var $target = document.getElementById(target);
-
-                    // Toggle the class on both the "navbar-burger" and the "navbar-menu"
-                    $el.classList.toggle('is-active');
-                    $target.classList.toggle('is-active');
-                });
+                // Toggle the class on both the "navbar-burger" and the "navbar-menu"
+                navbarBurger.classList.toggle('is-active');
+                target.classList.toggle('is-active');
             });
         }
     }
