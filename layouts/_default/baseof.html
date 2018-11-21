@@ -7,9 +7,11 @@
     {{ .Hugo.Generator }}
     <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
 
+    {{- $manifest := getJSON "/public/mix-manifest.json" -}}
+
     <link rel="canonical" href="{{ .Permalink }}" />
     <link href="{{ .Site.RSSLink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
-    <link rel="stylesheet" type="text/css" href="{{ "css/main.css" | relURL }}">
+    <link rel="stylesheet" type="text/css" href="{{ index $manifest "/css/main.css" }}">
 
     {{ partial "meta-icons" . }}
 
@@ -25,6 +27,6 @@
 
     {{ partial "footer" . }}
 
-    <script type="text/javascript" src="{{ "javascript/app.js" | relURL }}"></script>
+    <script type="text/javascript" src="{{ index $manifest "/javascript/app.js" }}"></script>
   </body>
 </html>

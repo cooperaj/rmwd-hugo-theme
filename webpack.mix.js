@@ -25,7 +25,7 @@ mix.options({
             purgecss({
                 content: ['./layouts/**/*.html'],
                 whitelist: [
-                    'is-active', 'is-scrolled', 'highlight'
+                    'is-active', 'is-scrolled', 'highlight', 'notification'
                 ],
                 whitelistPatternsChildren: [
                     /content$/,
@@ -40,6 +40,7 @@ mix.options({
     .copyDirectory('assets/images', 'static/images')
     .sourceMaps()
     .browserSync('localhost:1313')
+    .version()
     .setPublicPath('static/')
     .setResourceRoot('/');
 
