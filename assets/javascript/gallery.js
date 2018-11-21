@@ -26,6 +26,13 @@ export default class {
         });
     }
     
+    /**
+     * Processes a passed in img HTMLELement and checks we would want to
+     * "lightboxify" it. 
+     * 
+     * Also ensure the image's link does not work since we don't want to follow
+     * it anymore.
+     */
     _filterImage(image) {
         var figure = this._findParentElement(image, "FIGURE");
         if (figure !== null && ! figure.classList.contains('video')) {
@@ -37,6 +44,10 @@ export default class {
         }
     }
 
+    /**
+     * Traverse up the DOM when given an element to find the parent that matches 
+     * the passed in tag.
+     */
     _findParentElement(element, tag) {
         while (element.parentNode) {
             element = element.parentNode;
