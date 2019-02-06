@@ -1,5 +1,7 @@
 const mix = require('laravel-mix');
 const purgecss = require('@fullhuman/postcss-purgecss');
+const sri = require('webpack-subresource-integrity');
+const assetmanifest = require('webpack-assets-manifest');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,7 +14,32 @@ const purgecss = require('@fullhuman/postcss-purgecss');
  |
  */
 
-mix.options({
+mix.webpackConfig({
+        output: {
+            crossOriginLoading: 'anonymous',
+        },
+        plugins: [
+            new sri({
+                hashFuncNames: ['sha256', 'sha384']
+            }),
+            new assetmanifest({
+                output: 'asset-integrity-manifest.json',
+                integrity: true,
+                writeToDisk: true,
+                customize(entry, original, manifest, asset) {
+                    if (!entry.value.startsWith('/')) {
+                        entry.value = '/' + entry.value;
+                    }
+
+                    return {
+                        key: entry.value,
+                        value: asset && asset.integrity,
+                    };
+                }
+            })
+        ],
+    })
+    .options({
         autoprefixer: {
             options: {
                 browsers: [
@@ -40,7 +67,6 @@ mix.options({
     .copyDirectory('assets/images', 'static/images')
     .sourceMaps()
     .browserSync('localhost:1313')
-    .version()
     .setPublicPath('static/')
     .setResourceRoot('/');
 
