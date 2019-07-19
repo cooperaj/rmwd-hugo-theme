@@ -1,0 +1,35 @@
+{{ define "main" }}
+<main role="main">
+    {{ partial "responsive-cover.html" . }}
+    <header class="hero is-medium is-info is-bold has-image">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    {{- if .Params.Title }}
+                        {{ .Params.Title }}
+                    {{ else }}
+                        Type: {{ .Title }}
+                    {{ end -}}
+                </h1>
+            </div>
+        </div>
+    </header>
+    <section class="articles">
+        <div class="container">
+            <div class="column is-8 is-offset-2">
+                {{ $paginator := .Paginator }}
+                {{ range $paginator.Pages }}
+                    {{ .Render "summary" }}
+                {{ end }}
+            </div>
+        </div>
+    </section>
+    <div class="section has-text-centered">
+        <div class="container">
+            <div class="column is-8 is-offset-2">
+                {{ partial "pagination.html" $paginator }}
+            </div>
+        </div>
+    </div>
+</main>
+{{ end }}
