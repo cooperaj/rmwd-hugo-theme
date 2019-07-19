@@ -13,7 +13,7 @@
     <section class="articles">
         <div class="container">
             <div class="column is-8 is-offset-2">
-                {{ $paginator := .Paginate (where .Site.Pages "Section" "in" (slice "post" "insta")) }}
+                {{ $paginator := .Paginate (where .Site.RegularPages "Type" "in" (slice "post" "insta")) }}
                 {{ range $paginator.Pages }}
                     {{ .Render "summary" }}
                 {{ end }}
