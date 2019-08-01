@@ -8,26 +8,26 @@
   "author": {
     "@type": "Person",
     {{ with $.Site.GetPage ( printf "author/%s" . ) -}}
-    "name": "{{ .Params.name }}"
+    "name": {{ .Params.name }}
     {{- end }}
   },
   {{- end -}}
   {{- if .Site.Params.description }}
-  "description": "{{ .Site.Params.description }}",
+  "description": {{ .Site.Params.description }},
   {{- end -}}
   {{- with .Site.Params.cover }}
   "image": {
     "@type": "ImageObject",
-    "url": "{{ printf "%s" . | absURL }}"
+    "url": {{ printf "%s" . | absURL }}
   },
   {{- end }}
-  "thumbnailUrl": "{{ "/images/icon-vector.svg" | absURL }}",
+  "thumbnailUrl": {{ "/images/icon-vector.svg" | absURL }},
   {{- with .Site.Copyright -}}
     {{- with $.Site.GetPage ( printf "author/%s" . ) }}
   "license": "&copy; Copyright {{ .Params.name }} {{ now.Format "2006" }}",
     {{- end -}}
   {{- end }}
-  "name": "{{ .Site.Title }}"
+  "name": {{ .Site.Title }}
 }
 </script>
 {{- else if .IsPage -}}
@@ -35,62 +35,62 @@
 {
   "@context": "http://schema.org",
   "@type": "BlogPosting",
-  "headline": "{{ .Title }}",
+  "headline": {{ .Title | safeHTML }},
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "{{ .Permalink | absURL }}"
+    "@id": {{ .Permalink | absURL }}
   },
   {{ if .Params.coverimage -}}
     {{- $image := ( $.Resources.GetMatch ( printf "%s*" .Params.coverimage ) ) -}}
   "image": {
     "@type": "ImageObject",
-    "url": "{{ ( $image.Resize "500x Lanczos" ).Permalink | absURL }}"
+    "url": {{ ( $image.Resize "500x Lanczos" ).Permalink | absURL }}
   },
   {{- else -}}
     {{- with .Site.GetPage "media/covers" -}}
       {{- $image := (index (.Resources.ByType "image" | shuffle | first 1) 0) -}}
   "image": {
     "@type": "ImageObject",
-    "url": "{{ ( $image.Resize "500x Lanczos" ).Permalink | absURL }}"
+    "url": {{ ( $image.Resize "500x Lanczos" ).Permalink | absURL }}
   },
     {{- end -}}
   {{- end }}
   {{ with .Params.tags -}}
-  "keywords": "{{ delimit . ", " }}",
+  "keywords": {{ delimit . ", " }},
   {{- end }}
   "wordcount": {{ .WordCount }},
-  "url": "{{ .Permalink | absURL }}",
+  "url": {{ .Permalink | absURL }},
   {{ if not .PublishDate.IsZero -}}
-  "datePublished": "{{ .PublishDate.Format "2006-01-02T15:04:05-07:00" | safeHTML }}",
+  "datePublished": {{ .PublishDate.Format "2006-01-02T15:04:05-07:00" | safeHTML }},
   {{- else if not .Date.IsZero -}}
-  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05-07:00" | safeHTML }}",
+  "datePublished": {{ .Date.Format "2006-01-02T15:04:05-07:00" | safeHTML }},
   {{- end }}
   {{ with .Lastmod -}}
-  "dateModified": "{{ .Format "2006-01-02T15:04:05-07:00" | safeHTML }}",
+  "dateModified": {{ .Format "2006-01-02T15:04:05-07:00" | safeHTML }},
   {{- end }}
   {{ with .Site.Copyright -}}
   "copyrightHolder": {
     "@type": "Person",
     {{ with $.Site.GetPage ( printf "author/%s" . ) -}}
-    "name": "{{ .Params.name }}"
+    "name": {{ .Params.name }}
     {{- end }}
   },
-  "copyrightYear": "{{ now.Format "2006" }}",
+  "copyrightYear": {{ now.Format "2006" }},
   {{- end }}
   "publisher": {
     "@type": "Organization",
-    "name": "{{ .Site.Title }}",
-    "logo": "{{ "/images/icon-vector.svg" | absURL }}"
+    "name": {{ .Site.Title }},
+    "logo": {{ "/images/icon-vector.svg" | absURL }}
   },
   {{ if .Params.author -}}
   "author": {
     "@type": "Person",
     {{ with $.Site.GetPage ( printf "author/%s" .Params.author ) -}}
-    "name": "{{ .Params.name }}"
+    "name": {{ .Params.name }}
     {{- end }}
   },
   {{ end -}}
-  "description": "{{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary | plainify }}{{ end }}{{ end }}"
+  "description": {{if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary | plainify }}{{ end }}{{ end }}
 }
 </script>
 {{- end }}
