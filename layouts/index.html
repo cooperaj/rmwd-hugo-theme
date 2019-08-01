@@ -1,3 +1,9 @@
+{{ define "additional-head" }}
+{{ with .Site.Params.mastodonName }}
+<link rel="me" href="https://mastodon.social/@{{ . }}" />
+{{ end }}
+{{ end }}
+
 {{ define "main" }}
 <main role="main">
     {{ partial "responsive-cover.html" . }}
