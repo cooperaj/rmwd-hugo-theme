@@ -5,16 +5,20 @@
     {{- .Scratch.Set "imgSrc" $image -}}
 {{- else -}}    
     {{- $resource := .Page.Resources.GetMatch (printf "*%s*" $image) -}}
-    {{- if .Parent -}} <!-- am inside a gallery -->
-        {{- $smallResource := $resource.Fill "150x150 smart" -}}
-        {{- $mediumResource := $resource.Fill "275x275 smart" -}}
-        {{- $largeResource := $resource.Fill "380x380 smart" -}}
-        {{- .Scratch.Set "imgSrc" $resource.RelPermalink -}}
-        {{- .Scratch.Set "s-imgSrc" $smallResource.RelPermalink -}}
-        {{- .Scratch.Set "m-imgSrc" $mediumResource.RelPermalink -}}
-        {{- .Scratch.Set "l-imgSrc" $largeResource.RelPermalink -}}
-        {{- .Scratch.Set "class" "is-square" -}}
-    {{- else -}}
+    {{- if .Parent -}} <!-- am nested shortcode -->
+        {{- if eq .Parent.Name "gallery" -}} <!-- am inside a gallery -->
+            {{- $smallResource := $resource.Fill "150x150 smart" -}}
+            {{- $mediumResource := $resource.Fill "275x275 smart" -}}
+            {{- $largeResource := $resource.Fill "380x380 smart" -}}
+            {{- .Scratch.Set "in" "gallery" -}}
+            {{- .Scratch.Set "imgSrc" $resource.RelPermalink -}}
+            {{- .Scratch.Set "s-imgSrc" $smallResource.RelPermalink -}}
+            {{- .Scratch.Set "m-imgSrc" $mediumResource.RelPermalink -}}
+            {{- .Scratch.Set "l-imgSrc" $largeResource.RelPermalink -}}
+            {{- .Scratch.Set "class" "is-square" -}}
+        {{- end -}}
+    {{- end -}}
+    {{- if not (.Scratch.Get "imgSrc") -}} <!-- default sizes -->
         {{- $smallResource := $resource.Resize "500x Lanczos" -}}
         {{- $mediumResource := $resource.Resize "850x Lanczos" -}}
         {{- $largeResource := $resource.Resize "1200x Lanczos" -}}
@@ -25,12 +29,12 @@
     {{- end -}}
 {{- end -}}
 {{- $imgSrc := .Scratch.Get "imgSrc" -}}
-{{- if .Parent -}}<div class="column is-half-mobile is-one-quarter-tablet is-2-desktop">{{- end -}}
+{{- if (eq (.Scratch.Get "in") "gallery") -}}<div class="column is-half-mobile is-one-quarter-tablet is-2-desktop">{{- end -}}
 <figure{{ with .Get "class" }} class="{{ . }}"{{ else }} class="{{ .Scratch.Get "class" }}"{{ end }} itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
     <a href="{{ with .Get "link" }}{{.}}{{ else }}{{ $imgSrc }}{{ end }}" {{ with .Get "size" }}data-size="{{.}}"{{ end }} itemprop="contentUrl"> 
         <img itemprop="thumbnail" src="{{ $imgSrc }}"
         {{ if .Scratch.Get "s-imgSrc" -}}
-            {{- if .Parent -}}
+            {{- if .Scratch.Get "in-gallery" -}}
                 srcset="{{ .Scratch.Get "l-imgSrc" }} 380w, {{ .Scratch.Get "m-imgSrc" }} 275w, {{ .Scratch.Get "s-imgSrc" }} 150w"
             {{- else -}}
                 srcset="{{ .Scratch.Get "l-imgSrc" }} 1200w, {{ .Scratch.Get "m-imgSrc" }} 850w, {{ .Scratch.Get "s-imgSrc" }} 500w"
@@ -61,4 +65,4 @@
         </figcaption>
     {{- end -}}
 </figure>
-{{- if .Parent -}}</div>{{- end -}} <!-- Closing gallery div -->
+{{- if (eq (.Scratch.Get "in") "gallery") -}}</div>{{- end -}} <!-- Closing gallery div -->
