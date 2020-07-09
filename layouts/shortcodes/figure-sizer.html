@@ -1,0 +1,12 @@
+<div class="columns">
+    {{- $classes := "is-half-tablet" -}}
+    {{- $size := default "medium" (.Get "size") -}}
+    {{- if (eq $size "small") -}}
+        {{- $classes = "is-2-tablet" -}}
+    {{- end -}}
+    <div class="column"></div>
+    <div class="column {{ $classes }}">
+        {{ .Inner }}
+    </div>
+    <div class="column"></div>
+</div>
