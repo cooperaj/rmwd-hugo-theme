@@ -9,9 +9,9 @@
 @import "./hero";
 @import "./pagination";
 
-$fa-font-path: '~@fortawesome/fontawesome-pro/webfonts';
-@import "~@fortawesome/fontawesome-pro/scss/brands";
-@import "~@fortawesome/fontawesome-pro/scss/fontawesome";
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome";
 
 @import "~viewerjs/dist/viewer.css";
 
