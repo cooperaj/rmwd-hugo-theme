@@ -14,7 +14,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@fortawesome/fontawesome-pro": "^5.2.0",
+    "@fortawesome/fontawesome-free": "^5.15.0",
     "@fullhuman/postcss-purgecss": "^1.0.1",
     "browser-sync": "^2.24.6",
     "browser-sync-webpack-plugin": "^2.0.1",
