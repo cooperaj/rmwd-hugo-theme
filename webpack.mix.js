@@ -1,7 +1,9 @@
 const mix = require('laravel-mix');
-const purgecss = require('@fullhuman/postcss-purgecss');
 const sri = require('webpack-subresource-integrity');
 const assetmanifest = require('webpack-assets-manifest');
+const path = require('path');
+
+require('laravel-mix-purgecss');
 
 /*
  |--------------------------------------------------------------------------
@@ -48,23 +50,21 @@ mix.webpackConfig({
                 ]
             }
         },
-        postCss: [
-            purgecss({
-                content: ['./layouts/**/*.html'],
-                whitelist: [
-                    'is-active', 'is-scrolled', 'highlight', 'notification'
-                ],
-                whitelistPatternsChildren: [
-                    /content$/,
-                    /viewer-.*/
-                ]
-            })
-        ]
     })
     .sass('assets/sass/main.scss', 'css/')
     .js('assets/app.js', 'javascript/')
     .copyDirectory('assets/icons', 'static/')
     .copyDirectory('assets/images', 'static/images')
+    .purgeCss({
+        enabled: true,
+        extend: {
+            content: [path.join(__dirname, 'layouts/**/*.html')],
+            safelist: {
+                standard: ['is-active', 'is-scrolled', 'highlight', 'notification'],
+                deep: [/content$/, /viewer-.*/],
+            }
+        }
+    })
     .sourceMaps()
     .browserSync('localhost:1313')
     .setPublicPath('static/')
