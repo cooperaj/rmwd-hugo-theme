@@ -16,13 +16,15 @@ export default class {
 
     _galleryInit() {
         this.gallery = new Viewer(this.gallery, {
-            navbar: 0,
-            title: 0,
+            navbar: false,
+            title: false,
+            movable: false,
             toolbar: {
                 zoomIn: 1,
                 zoomOut: 1
             },
-            filter: image => this._filterImage(image)
+            inheritedAttributes: ['crossOrigin', 'decoding', 'isMap', 'loading', 'referrerPolicy', 'useMap'],
+            filter: image => this._filterImage(image),
         });
     }
     
