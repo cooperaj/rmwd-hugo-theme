@@ -5,10 +5,10 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    {{- if .Params.Title }}
-                        {{ .Params.Title }}
-                    {{ else }}
+                    {{- if .Data.Singular }}
                         {{ humanize .Data.Singular }}: {{ .Title }}
+                    {{ else }}
+                        {{ .Params.Title }}
                     {{ end -}}
                 </h1>
             </div>
