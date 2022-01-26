@@ -59,6 +59,16 @@ article {
                     margin-top: 1.5rem;
                     margin-left: 0;
                     margin-right: 0;
+
+                    &.is-pulled-left {
+                        margin-top: 0.5rem;
+                        margin-right: 1rem;
+                    }
+
+                    &.is-pulled-right {
+                        margin-top: 0.5rem;
+                        margin-left: 1rem;
+                    }
                 }
 
                 .gallery {

@@ -60,7 +60,7 @@ mix.webpackConfig({
         extend: {
             content: [path.join(__dirname, 'layouts/**/*.html')],
             safelist: {
-                standard: ['is-active', 'is-scrolled', 'highlight', 'notification'],
+                standard: ['is-active', 'is-scrolled', 'is-pulled-right', 'is-pulled-left', 'highlight', 'notification'],
                 deep: [/content$/, /viewer-.*/],
             }
         }
