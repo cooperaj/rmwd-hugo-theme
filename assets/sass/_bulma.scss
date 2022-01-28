@@ -1,5 +1,5 @@
 
-// 1. Setup our customisation
+// 1. Setup our customisation (Bulma utilities)
 @import "~bulma/sass/utilities/initial-variables";
 @import "~bulma/sass/utilities/functions";
 
@@ -7,13 +7,14 @@
 @import "~bulma/sass/utilities/derived-variables";
 @import "./custom-colours";
 
-@import "~bulma/sass/utilities/animations";
 @import "~bulma/sass/utilities/mixins";
 @import "~bulma/sass/utilities/controls";
+@import "~bulma/sass/utilities/extends";
 
 // Base stuff
 @import "~bulma/sass/base/_all";
 @import "~bulma/sass/layout/_all";
+@import "~bulma/sass/helpers/_all";
 
 // Grid 
 @import "~bulma/sass/grid/columns";
