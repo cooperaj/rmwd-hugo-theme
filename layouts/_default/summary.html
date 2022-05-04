@@ -11,7 +11,12 @@
             </div>
         </header>
         <div class="content">
-            {{ .Summary }}
+            {{ $summary_splits := split .Summary "<!--start-summary-->" }}
+            {{ if eq (len $summary_splits) 2 }}
+                {{ index $summary_splits 1 | safeHTML }}
+            {{ else }}
+                {{ .Summary }}
+            {{ end }}
         </div>
         {{ if .Truncated }}
         <footer>
