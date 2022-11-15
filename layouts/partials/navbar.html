@@ -36,12 +36,30 @@
                     <span class="is-hidden-desktop">My Keybase profile</span>
                 </a>
                 {{ end }}
+                {{ with .Site.Params.keyoxideURL }}
+                <a href="https://keyoxide.org/{{ . }}" class="navbar-item">
+                    <span class="icon is-medium">
+                        <i class="fab fa-keyoxide fa-lg" aria-hidden="true"></i>
+                    </span>
+                    <span class="is-hidden-desktop">My Keyoxide profile</span>
+                </a>
+                {{ end }}
                 {{ with .Site.Params.twitterName }}
                 <a href="https://twitter.com/{{ . }}" class="navbar-item">
                     <span class="icon is-medium">
                         <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
                     </span>
                     <span class="is-hidden-desktop">My Twitter profile</span>
+                </a>
+                {{ end }}
+                {{ with .Site.Params.mastodonName }}
+                {{ $parts := split . "@" }}
+                {{ $finger := getJSON (printf "https://%s/.well-known/webfinger?resource=acct:%s@%s" (index $parts 2) (index $parts 1) (index $parts 2)) }}
+                <a rel="me" href="{{ index $finger.aliases 0 }}" class="navbar-item">
+                    <span class="icon is-medium">
+                        <i class="fab fa-mastodon fa-lg" aria-hidden="true"></i>
+                    </span>
+                    <span class="is-hidden-desktop">My Mastodon profile</span>
                 </a>
                 {{ end }}
                 {{ with .Site.Params.githubName }}
