@@ -1,0 +1,84 @@
+$toot-background-colour: #313543;
+$toot-account-colour: #9baec8;
+$toot-text-colour: #fff;
+$toot-hashtag-colour: #d9e1e8;
+$toot-link-colour: #8c8dff;
+$toot-meta-colour: #606984;
+
+.toot {
+    @extend .card;
+    @extend .column;
+
+    background-color: $toot-background-colour;
+    color: $toot-text-colour;
+
+    padding: 0;
+    margin-top: 0.75em;
+
+    &-content {
+        @extend .card-content;
+
+        .media {
+            .title {
+                color: $toot-text-colour;
+            }
+            .subtitle {
+                color: $toot-account-colour;
+            }
+
+            &:hover {
+                .title {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .content a:hover {
+            text-decoration: underline;
+        }
+    
+        a.hashtag {
+            color: $toot-hashtag-colour;
+
+            &:hover {
+                text-decoration: none;
+            }
+
+            & span:hover {
+                text-decoration: underline;
+            }
+        }
+    
+        a {
+            color: $toot-link-colour;
+
+            .ellipsis::after {
+                content: "…";
+            }
+
+            .invisible {
+                @extend .is-hidden;
+            }
+        }
+    
+        figure {
+            margin: 0 !important;
+
+            img {
+                border-radius: $radius;
+            }
+        }
+    }
+
+    &-meta {
+        color: $toot-meta-colour;
+
+        a {
+            color: inherit;
+        }
+
+        time:hover {
+            text-decoration: underline;
+        }
+    }
+}

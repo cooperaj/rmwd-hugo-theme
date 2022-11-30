@@ -8,10 +8,12 @@
 @import "./article";
 @import "./hero";
 @import "./pagination";
+@import "./toot";
 
 $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
-@import "~@fortawesome/fontawesome-free/scss/brands";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/solid";
 
 @import "~viewerjs/dist/viewer.css";
 

@@ -1,0 +1,73 @@
+{{- if .IsNamedParams -}}
+
+{{- $parts := split .Site.Params.mastodonName "@" -}}
+{{- $finger := getJSON (printf "https://%s/.well-known/webfinger?resource=acct:%s@%s" (index $parts 2) (index $parts 1) (index $parts 2)) -}}
+{{- $url := split (index $finger.aliases 0) "@" -}}
+
+{{- $toot := getJSON (printf "%s/api/v1/statuses/%s" (index $url 0) (.Get "id")) -}}
+
+{{- $displayName := $toot.account.display_name -}}
+{{- range $index, $emoji := $toot.account.emojis }}
+  {{- $shortcode := printf ":%s:" $emoji.shortcode -}}
+  {{- if strings.Contains $toot.account.display_name $shortcode -}}
+    {{ $emojiElement := printf "<span class=\"icon is-small\"><img src=\"%s\"/></span>" $emoji.url }}
+    {{- $displayName = strings.Replace $displayName $shortcode $emojiElement -}}
+  {{- end -}}
+{{ end -}}
+
+{{- $instanceHost := (urls.Parse $toot.account.url).Host -}}
+
+<div class="columns is-centered">
+  <div class="toot is-three-fifths">
+    <div class="toot-content">
+      <div class="media">
+        <div class="media-left">
+          <a href="{{ $toot.account.url }}" target="_blank" rel="noopener noreferrer">
+            <figure class="image is-48x48">
+              <img src="{{ $toot.account.avatar }}" alt="Placeholder image">
+            </figure>
+          </a>
+        </div>
+        <div class="media-content">
+          <a href="{{ $toot.account.url }}" target="_blank" rel="noopener noreferrer">
+            <p class="title is-5">{{ $displayName | safeHTML}}</p>
+            <p class="subtitle is-6">@{{ $toot.account.username}}@{{ $instanceHost }}</p>
+          </a>
+        </div>
+      </div>
+
+      <div class="content">
+        {{ if strings.HasSuffix $toot.content "</p>"}}
+        {{ strings.TrimPrefix "<p>" (strings.TrimSuffix "</p>" $toot.content) | safeHTML }}
+        {{ else }}
+        {{ $toot.content | safeHTML }}
+        {{ end }}
+      </div>
+
+      <div class="toot-meta">
+        <a href="{{ $toot.url }}" target="_blank" rel="noopener noreferrer">
+          {{- $date := time $toot.created_at }}
+          <time datetime="{{ dateFormat "2006-01-02" $toot.created_at }}">
+          {{ dateFormat "Jan 2, 2006, 15:04" $toot.created_at }}</time></a>
+        · 
+        <a href="{{ $toot.url }}/reblogs" target="_blank" rel="noopener noreferrer">
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-retweet"></i>
+          </span>
+          <span>{{ $toot.reblogs_count }}</span>
+        </span></a>
+        · 
+        <a href="{{ $toot.url }}/favourites" target="_blank" rel="noopener noreferrer">
+        <span class="icon-text">
+          <span class="icon">
+            <i class="fas fa-star"></i>
+          </span>
+          <span>{{ $toot.favourites_count }}</span>
+        </span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{- end -}}
