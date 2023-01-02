@@ -11,8 +11,11 @@
     <link href="{{ .Site.RSSLink }}" rel="alternate" type="application/rss+xml" title="{{ .Site.Title }}" />
     
     {{ $sass := resources.Get "sass/main.scss" }}
-    {{ $style := $sass | resources.ToCSS (dict "outputStyle" "compressed" "targetPath" "main.css") | resources.PostCSS | resources.Fingerprint | resources.PostProcess  }}    
-    <link rel="stylesheet" type="text/css" href="{{ $style.Permalink }}"
+    {{ $style := $sass | resources.ToCSS (dict "outputStyle" "compressed" "targetPath" "main.css") | resources.PostCSS | resources.Fingerprint }}
+    {{ if hugo.IsProduction }}
+      {{ $style = $style | resources.PostProcess }}
+    {{ end }}
+    <link rel="stylesheet" type="text/css" href="{{ $style.RelPermalink }}"
           integrity="{{ $style.Data.Integrity }}"
           crossorigin="anonymous">
 
@@ -34,7 +37,7 @@
 
     {{ $js := resources.Get "javascript/app.js" }}
     {{ $app := $js | js.Build (dict "targetPath" "app.js" "minify" true) | resources.Fingerprint }}
-    <script type="text/javascript" src="{{ $app.Permalink }}" 
+    <script type="text/javascript" src="{{ $app.RelPermalink }}" 
             integrity="{{ $app.Data.Integrity }}"
             crossorigin="anonymous"></script>
   </body>

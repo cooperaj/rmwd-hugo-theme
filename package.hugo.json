@@ -1,0 +1,18 @@
+{
+  "author": "Adam Cooper <adam@acpr.dev>",
+  "description": "The theme for my blog http://realmenweardress.es",
+  "devDependencies": {
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.20",
+    "postcss-cli": "^10.1.0",
+    "@fullhuman/postcss-purgecss": "^5.0.0"
+  },
+  "keywords": [
+    "hugo",
+    "theme"
+  ],
+  "license": "MIT",
+  "name": "rmwd-hugo-theme",
+  "repository": "github:cooperaj/rmwd-hugo-theme",
+  "version": "1.0.0"
+}

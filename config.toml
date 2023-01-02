@@ -28,6 +28,3 @@ path = "github.com/fengyuanchen/viewerjs"
   [[module.imports.mounts]]
   source = "src"
   target = "assets/libs/viewerjs"
-
-[build]
-  writeStats = true
