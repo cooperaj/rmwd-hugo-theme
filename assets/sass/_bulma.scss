@@ -1,35 +1,35 @@
 
 // 1. Setup our customisation (Bulma utilities)
-@import "~bulma/sass/utilities/initial-variables";
-@import "~bulma/sass/utilities/functions";
+@import "./bulma/utilities/initial-variables";
+@import "./bulma/utilities/functions";
 
 @import "./variables";
-@import "~bulma/sass/utilities/derived-variables";
+@import "./bulma/utilities/derived-variables";
 @import "./custom-colours";
 
-@import "~bulma/sass/utilities/mixins";
-@import "~bulma/sass/utilities/controls";
-@import "~bulma/sass/utilities/extends";
+@import "./bulma/utilities/mixins";
+@import "./bulma/utilities/controls";
+@import "./bulma/utilities/extends";
 
 // Base stuff
-@import "~bulma/sass/base/_all";
-@import "~bulma/sass/layout/_all";
-@import "~bulma/sass/helpers/_all";
+@import "./bulma/base/_all";
+@import "./bulma/layout/_all";
+@import "./bulma/helpers/_all";
 
 // Grid 
-@import "~bulma/sass/grid/columns";
+@import "./bulma/grid/columns";
 
 // Elements 
-@import "~bulma/sass/elements/container";
-@import "~bulma/sass/elements/content";
-@import "~bulma/sass/elements/icon";
-@import "~bulma/sass/elements/image";
-@import "~bulma/sass/elements/notification";
-@import "~bulma/sass/elements/other";
-@import "~bulma/sass/elements/tag";
-@import "~bulma/sass/elements/title";
+@import "./bulma/elements/container";
+@import "./bulma/elements/content";
+@import "./bulma/elements/icon";
+@import "./bulma/elements/image";
+@import "./bulma/elements/notification";
+@import "./bulma/elements/other";
+@import "./bulma/elements/tag";
+@import "./bulma/elements/title";
 
 // Components
-@import "~bulma/sass/components/card";
-@import "~bulma/sass/components/navbar";
-@import "~bulma/sass/components/media";
+@import "./bulma/components/card";
+@import "./bulma/components/navbar";
+@import "./bulma/components/media";

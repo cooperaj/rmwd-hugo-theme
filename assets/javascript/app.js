@@ -1,7 +1,7 @@
 'use strict';
 
-import NavBar from './javascript/navbar.js';
-import Gallery from './javascript/gallery.js';
+import NavBar from './navbar.js';
+import Gallery from './gallery.js';
 
 const nav = new NavBar(document.querySelector('nav.is-fixed-top'));
 

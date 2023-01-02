@@ -10,12 +10,12 @@
 @import "./pagination";
 @import "./toot";
 
-$fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
-@import "~@fortawesome/fontawesome-free/scss/fontawesome";
-@import "~@fortawesome/fontawesome-free/scss/brands";
-@import "~@fortawesome/fontawesome-free/scss/solid";
+$fa-font-path: '../fonts';
+@import "fontawesome/fontawesome";
+@import "fontawesome/brands";
+@import "fontawesome/solid";
 
-@import "~viewerjs/dist/viewer.css";
+@import "../libs/viewerjs/index.scss";
 
 h1, h2, h3, h4, h5, h6,
 .title, .subtitle {
