@@ -1,16 +1,16 @@
-<article class="post">
+<article class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
     <div class="post-body">
         <header class="media">
             <div class="media-content">
-                <h2 class="title is-size-4"><a href='{{ .Permalink }}'>{{ .Title | safeHTML }}</a> </h2>
+                <h2 class="p-name title is-size-4" itemprop="name"><a class="u-url" href='{{ .Permalink }}' itemprop="mainEntityOfPage">{{ .Title | safeHTML }}</a></h2>
                 <p class="subtitle is-size-6 post-meta">
-                    {{ .Date.Format "Mon, Jan 2, 2006" }} &mdash;
+                    <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" itemprop="datePublished">{{ .Date.Format "Mon, Jan 2, 2006" }}</time> &mdash;
                     {{ .FuzzyWordCount }} Words &mdash; 
                     {{ partial "reading-time" .ReadingTime }}
                 </p>
             </div>
         </header>
-        <div class="content">   
+        <div class="e-content content">   
             {{ $summary_splits := split .Summary "<!--start-summary-->" }}
             {{ if eq (len $summary_splits) 2 }}
                 {{ index $summary_splits 1 | safeHTML }}

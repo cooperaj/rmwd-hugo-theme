@@ -2,16 +2,17 @@
 <script type="application/ld+json">
 {
   "@context": "http://schema.org",
-  "@type": "WebSite",
-  "url": "{{ .Site.BaseURL }}",
-  {{ with .Site.Copyright -}}
-  "author": {
-    "@type": "Person",
-    {{ with $.Site.GetPage ( printf "author/%s" . ) -}}
-    "name": {{ .Params.name }}
-    {{- end }}
+  "@type": "Blog",
+  "@id": "{{ .Site.BaseURL }}",
+  "mainEntityOfPage": "{{ .Site.BaseURL }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ .Site.Title }},
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ "/images/icon-vector.svg" | absURL }}"
+    }
   },
-  {{- end -}}
   {{- if .Site.Params.description }}
   "description": {{ .Site.Params.description }},
   {{- end -}}
@@ -36,10 +37,7 @@
   "@context": "http://schema.org",
   "@type": "BlogPosting",
   "headline": {{ .Title | safeHTML }},
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": {{ .Permalink | absURL }}
-  },
+  "mainEntityOfPage": {{ .Permalink | absURL }},
   {{ if .Params.coverimage -}}
     {{- $image := ( $.Resources.GetMatch ( printf "%s*" .Params.coverimage ) ) -}}
   "image": {
@@ -77,11 +75,6 @@
   },
   "copyrightYear": {{ now.Format "2006" }},
   {{- end }}
-  "publisher": {
-    "@type": "Organization",
-    "name": {{ .Site.Title }},
-    "logo": {{ "/images/icon-vector.svg" | absURL }}
-  },
   {{ if .Params.author -}}
   "author": {
     "@type": "Person",
@@ -90,7 +83,20 @@
     {{- end }}
   },
   {{ end -}}
-  "description": {{if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary | plainify }}{{ end }}{{ end }}
+  "description": {{if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary | plainify }}{{ end }}{{ end }},
+  "isPartOf": {
+    "@type": "Blog",
+    "url": "{{ .Site.BaseURL }}",
+    "name": "{{ .Site.Title }}",
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ .Site.Title }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ "/images/icon-vector.svg" | absURL }}"
+      }
+    }
+  }
 }
 </script>
 {{- end }}
