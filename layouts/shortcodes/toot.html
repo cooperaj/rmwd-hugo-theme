@@ -10,28 +10,32 @@
 {{- range $index, $emoji := $toot.account.emojis }}
   {{- $shortcode := printf ":%s:" $emoji.shortcode -}}
   {{- if strings.Contains $toot.account.display_name $shortcode -}}
-    {{ $emojiElement := printf "<span class=\"icon is-small\"><img src=\"%s\"/></span>" $emoji.url }}
+    {{- $emojiElement := printf "<span class=\"icon is-small\"><img src=\"%s\"/></span>" $emoji.url -}}
     {{- $displayName = strings.Replace $displayName $shortcode $emojiElement -}}
   {{- end -}}
 {{ end -}}
 
 {{- $instanceHost := (urls.Parse $toot.account.url).Host -}}
+{{- $acParts := split $toot.account.acct "@" -}}
+{{- if eq (len $acParts) 1 -}} 
+  {{- $instanceHost = index $parts 2 }}
+{{- end -}}
 
 <div class="columns is-centered">
-  <div class="toot is-three-fifths">
+  <div class="toot is-three-fifths" itemprop="sharedContent" itemid="{{ $toot.url }}" itemscope itemtype="https://schema.org/SocialMediaPosting">
     <div class="toot-content">
-      <div class="media">
+      <div class="media" itemprop="author" itemscope itemtype="https://schema.org/Person">
         <div class="media-left">
           <a href="{{ $toot.account.url }}" target="_blank" rel="noopener noreferrer">
             <figure class="image is-48x48">
-              <img src="{{ $toot.account.avatar }}" alt="Placeholder image">
+              <img src="{{ $toot.account.avatar }}" alt="Placeholder image" itemprop="image">
             </figure>
           </a>
         </div>
         <div class="media-content">
-          <a href="{{ $toot.account.url }}" target="_blank" rel="noopener noreferrer">
+          <a href="{{ $toot.account.url }}" target="_blank" rel="noopener noreferrer" itemprop="url">
             <p class="title is-5">{{ $displayName | safeHTML}}</p>
-            <p class="subtitle is-6">@{{ $toot.account.username}}@{{ $instanceHost }}</p>
+            <p class="subtitle is-6" itemprop="name">@{{ $toot.account.username}}@{{ $instanceHost }}</p>
           </a>
         </div>
       </div>
@@ -45,9 +49,9 @@
       </div>
 
       <div class="toot-meta">
-        <a href="{{ $toot.url }}" target="_blank" rel="noopener noreferrer">
+        <a href="{{ $toot.url }}" target="_blank" rel="noopener noreferrer" itemprop="url">
           {{- $date := time $toot.created_at }}
-          <time datetime="{{ dateFormat "2006-01-02" $toot.created_at }}">
+          <time datetime="{{ dateFormat "2006-01-02T15:04:05Z07:00" $toot.created_at }}" itemprop="datePublished">
           {{ dateFormat "Jan 2, 2006, 15:04" $toot.created_at }}</time></a>
         · 
         <a href="{{ $toot.url }}/reblogs" target="_blank" rel="noopener noreferrer">
