@@ -17,6 +17,10 @@ main {
         img {
             max-height: 2.25rem; 
         }
+
+        .icon svg {
+            height: 1.25rem;
+        }
     }
 
     .navbar-burger {
@@ -31,6 +35,11 @@ main {
 
     a {
         color: $white;
+        fill: $white;
+
+        &:hover {
+            fill: $link;
+        }
     }
 }
 
