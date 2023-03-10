@@ -1,7 +1,22 @@
-<link rel="apple-touch-icon" sizes="180x180" href="{{ (resources.Get "icons/apple-touch-icon.png").Permalink }}">
-<link rel="icon" type="image/png" sizes="32x32" href="{{ (resources.Get "icons/favicon-32x32.png").Permalink }}">
-<link rel="icon" type="image/png" sizes="16x16" href="{{ (resources.Get "icons/favicon-16x16.png").Permalink }}">
-<link rel="manifest" href="{{ (resources.Get "icons/site.webmanifest").Permalink }}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{ (resources.Get "icons/apple-touch-icon.png" | resources.Copy "apple-touch-icon.png").Permalink }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ (resources.Get "icons/favicon-32x32.png" | resources.Copy "favicon-32x32.png").Permalink }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ (resources.Get "icons/favicon-16x16.png" | resources.Copy "favicon-16x16.png").Permalink }}">
 <link rel="mask-icon" href="{{ (resources.Get "icons/safari-pinned-tab.svg").Permalink }}" color="#4a4a4a">
-<meta name="msapplication-TileColor" content="#da532c">
+
+<link rel="manifest" href="{{ (resources.Get "icons/site.webmanifest" | resources.Copy "site.webmanifest").Permalink }}">
+<meta name="msapplication-config" content="{{ (resources.Get "icons/browserconfig.xml" | resources.Copy "browserconfig.xml").Permalink }}" />
 <meta name="theme-color" content="#4a4a4a">
+
+{{- (resources.Get "icons/favicon.ico" | resources.Copy "favicon.ico").Publish -}}
+
+{{- with resources.Match "icons/mstile-*.png" -}}
+  {{- range . -}}
+    {{- .Publish -}}
+  {{- end -}}
+{{- end -}}
+
+{{- with resources.Match "icons/android-chrome-*.png" -}}
+  {{- range . -}}
+    {{- .Publish -}}
+  {{- end -}}
+{{- end -}}
