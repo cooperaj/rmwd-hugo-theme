@@ -1,6 +1,6 @@
 github.com/FortAwesome/Font-Awesome v0.0.0-20221115183454-96cafbd73ec4 h1:xfr9SidRCMEh4A8fdkLhFPcHAVbrdv3Ua0Jp/nSmhhQ=
 github.com/FortAwesome/Font-Awesome v0.0.0-20221115183454-96cafbd73ec4/go.mod h1:IUgezN/MFpCDIlFezw3L8j83oeiIuYoj28Miwr/KUYo=
-github.com/fengyuanchen/viewerjs v1.11.2 h1:5FVLRoMi0WSCXHrZ1Nrb6aLF0q5u0dhgcJt3Avk3TnU=
-github.com/fengyuanchen/viewerjs v1.11.2/go.mod h1:RMfNwqXxfGN/U8s5pScGDAHEhvYzTCSQafZCoM5v0HA=
-github.com/jgthms/bulma v0.0.0-20230101182135-ea9307c9e0e1 h1:ZkCT+6q3vALavtcg+0uLQ5BPdKJHrXiaXFD+W2dy378=
-github.com/jgthms/bulma v0.0.0-20230101182135-ea9307c9e0e1/go.mod h1:89FLBKXYFKfOKAoDeUT26V0pHGwzr205cMXAEqtAVOI=
+github.com/fengyuanchen/viewerjs v1.11.6 h1:tsj7VPabAhphgiPMHClankHkdh02bVrrY47Vcabg3fE=
+github.com/fengyuanchen/viewerjs v1.11.6/go.mod h1:RMfNwqXxfGN/U8s5pScGDAHEhvYzTCSQafZCoM5v0HA=
+github.com/jgthms/bulma v0.0.0-20231218072116-f9a317c4a38d h1:lNTpmaBkyQzJnUKhmPr8vz9buiUL7Tt/YFs825v7Z4o=
+github.com/jgthms/bulma v0.0.0-20231218072116-f9a317c4a38d/go.mod h1:89FLBKXYFKfOKAoDeUT26V0pHGwzr205cMXAEqtAVOI=
