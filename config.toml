@@ -28,3 +28,9 @@ path = "github.com/fengyuanchen/viewerjs"
   [[module.imports.mounts]]
   source = "src"
   target = "assets/libs/viewerjs"
+  [[module.imports.mounts]]
+  source = "src/images"
+  target = "static/images"
+  includeFiles = [
+    "icons.png"
+  ]

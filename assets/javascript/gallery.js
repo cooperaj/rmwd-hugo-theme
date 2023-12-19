@@ -18,7 +18,6 @@ export default class {
         this.gallery = new Viewer(this.gallery, {
             navbar: false,
             title: false,
-            movable: false,
             toolbar: {
                 zoomIn: 1,
                 zoomOut: 1

@@ -56,7 +56,7 @@
                 {{- end -}}
             {{- end -}}" sizes="(min-width: 769px) 70vw, 100vw" />
 
-            <img itemprop="thumbnail" src="{{ $src }}"
+            <img itemprop="thumbnail" src="{{ $src }}" loading="lazy"
             {{- if (or (.Get "alt") (.Get "caption")) -}}
                 {{- with .Get "alt"}}
                     {{- printf " alt=\"%s\"" . | safeHTMLAttr -}}
