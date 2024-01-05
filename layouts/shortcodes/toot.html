@@ -21,6 +21,17 @@
   {{- $instanceHost = index $parts 2 }}
 {{- end -}}
 
+{{- $avatar := $toot.account.avatar -}}
+{{- with resources.GetRemote $toot.account.avatar -}}
+  {{- with .Err }}
+    {{- errorf "%s" . -}}
+  {{- else -}}
+    {{- $avatar = .RelPermalink -}}
+  {{- end -}}
+{{- else -}}
+  {{- errorf "Unable to get remote resource %q" $avatar -}}
+{{- end -}}
+
 <div class="columns is-centered">
   <div class="u-repost-of h-cite toot is-three-fifths" itemprop="sharedContent" itemid="{{ $toot.url }}" itemscope itemtype="https://schema.org/SocialMediaPosting">
     <div class="toot-content">
@@ -28,7 +39,7 @@
         <div class="media-left">
           <a href="{{ $toot.account.url }}" class="u-url" target="_blank" rel="noopener noreferrer">
             <figure class="image is-48x48">
-              <img src="{{ $toot.account.avatar }}" alt="Placeholder image" class="u-photo" itemprop="image">
+              <img src="{{ $avatar }}" alt="Placeholder image" class="u-photo" itemprop="image">
             </figure>
           </a>
         </div>
