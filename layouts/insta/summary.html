@@ -1,40 +1,12 @@
-{{- $image := .Params.image -}}
-{{- if (findRE "(^|:)//" $image) -}}
-    {{- .Scratch.Set "imgSrc" $image -}}
-{{- else -}}    
-    {{- $resource := .Page.Resources.GetMatch (printf "*%s*" $image) -}}
-    {{- if $resource -}}
-        {{- $smallResource := $resource.Resize "500x Lanczos" -}}
-        {{- $mediumResource := $resource.Resize "850x Lanczos" -}}
-        {{- $largeResource := $resource.Resize "1200x Lanczos" -}}
-        {{- .Scratch.Set "imgSrc" $resource.RelPermalink -}}
-        {{- .Scratch.Set "s-imgSrc" $smallResource.RelPermalink -}}
-        {{- .Scratch.Set "m-imgSrc" $mediumResource.RelPermalink -}}
-        {{- .Scratch.Set "l-imgSrc" $largeResource.RelPermalink -}}
-    {{- end -}}
-{{- end -}}
-{{- $imgSrc := .Scratch.Get "imgSrc" -}}
 <article class="h-entry post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
     <div class="post-image">
-        <figure class="image {{ if .Params.ratio }}is-{{ .Params.ratio }}{{ else }}is-4by3{{ end }}" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-            <a href="{{ $imgSrc }}" itemprop="contentUrl"> 
-                <img 
-                {{ if .Scratch.Get "s-imgSrc" -}} 
-                src="{{ $imgSrc }}"
-                srcset="{{ .Scratch.Get "l-imgSrc" }} 1200w, {{ .Scratch.Get "m-imgSrc" }} 850w, {{ .Scratch.Get "s-imgSrc" }} 500w"
-                sizes="(min-width: 769px) 70vw, 100vw"
-                {{- else -}}
-                src="{{ $imgSrc }}"
-                {{- end }}
-                class="u-photo"
-                alt="{{ .Title | safeHTMLAttr }}">
-            
-                {{ if .Scratch.Get "s-imgSrc" -}} 
-                <meta itemprop="thumbnailUrl" content="{{ .Scratch.Get "s-imgSrc" }}" />
-                {{- end }}
-            </a>
-            <figcaption class="post-image-caption is-size-7">{{ .Params.description }}</figcaption>
-        </figure>
+        {{- $image := dict
+            "src" .Params.image 
+            "caption" .Params.description
+            "alt" .Title
+            "Page" .Page
+        -}}
+        {{- partial "figure.html" $image -}}
     </div>
     {{ if .Title }}
     <div class="post-body is-insta">

@@ -1,0 +1,83 @@
+{{- $respSizes := slice "500" "850" "1200" -}}
+{{- $src := .src -}}
+{{- $resource := .src -}}
+
+{{- $hint := default "photo" .hint -}}
+{{- $filter := default false .filter -}}
+{{- $inGallery := false }}
+{{- $imgClass := default "" .class }}
+
+{{- if (findRE "(^|:)//" .src) -}}
+  {{- with resources.GetRemote .src -}}
+    {{- with .Err }}
+      {{- errorf "%s" . -}}
+    {{- else -}}
+      {{- $resource = . -}}
+      {{- $src = $resource.RelPermalink -}}
+    {{- end -}}
+  {{- else -}}
+    {{- errorf "Unable to get remote resource %q" .src -}}
+  {{- end -}}
+{{- else -}}
+  {{- $resource = .Page.Resources.GetMatch (printf "*%s*" .src) -}}
+  {{- $src = $resource.RelPermalink -}}
+  {{- if .Parent -}} <!-- am nested shortcode -->
+    {{- if eq .Parent.Name "gallery" -}} <!-- am inside a gallery -->
+      {{- $respSizes := slice "150" "275" "380" -}}
+      {{- $inGallery = true -}}
+      {{- $imgClass = "is-square" -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if $inGallery -}}<div class="column is-half-mobile is-one-quarter-tablet is-2-desktop">{{- end -}}
+<figure class="{{ $imgClass }}" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+  <a href="{{ with .link }}{{.}}{{ else }}{{ $src }}{{ end }}" {{ with .size }}data-size="{{.}}"{{ end }} itemprop="contentUrl"> 
+    <picture>
+      <source type="image/webp" srcset="
+      {{- with $respSizes -}}
+        {{- range $i, $e := . -}}
+          {{- if ge $resource.Width . -}}
+            {{- $dim := printf "resize %sx Lanczos" . -}}
+            {{- if $inGallery -}}{{- $dim = printf "fill %sx%s smart" . . -}}{{- end -}}
+            {{- if $i }}, {{ end -}}{{- ($resource.Process (print $dim " webp " $hint " " $filter) ).RelPermalink }} {{ . }}w
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}" sizes="(min-width: 769px) 70vw, 100vw" />
+
+      <source srcset="
+      {{- with $respSizes -}}
+        {{- range $i, $e := . -}}
+          {{- if ge $resource.Width . -}}
+            {{- $dim := printf "resize %sx Lanczos" . -}}
+            {{- if $inGallery -}}{{- $dim = printf "fill %sx%s smart" . . -}}{{- end -}}
+            {{- if $i }}, {{ end -}}{{- ($resource.Process (print $dim " " $filter) ).RelPermalink }} {{ . }}w
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}" sizes="(min-width: 769px) 70vw, 100vw" />
+
+      <img itemprop="thumbnail" src="{{ $src }}" loading="lazy"
+      {{- if (or (.alt) (.caption)) -}}
+        {{- with .alt}}
+          {{- printf " alt=\"%s\"" . | safeHTMLAttr -}}
+        {{- else -}}
+          {{- printf " alt=\"%s\"" (.caption | markdownify | plainify) | safeHTMLAttr -}}
+        {{- end -}}
+      {{- end -}}
+      {{- with .title -}}{{- printf " title=\"%s\"" . | safeHTMLAttr -}}{{- end -}}
+      {{- with .width }} width="{{ . }}"{{ end -}}
+      {{- with .height }} height="{{ . }}"{{ end -}} /> <!-- Closing img tag -->
+    </picture>
+  </a>
+  {{- if (or (.caption) (.attr)) -}}
+    <figcaption class="post-image-caption is-size-7">
+      {{ if (or (.caption) (.attr)) }}<p>
+        {{ .caption | markdownify }}
+        {{ with .attrlink }}<a href="{{ . }}"> {{ end }}
+          {{ .attr | markdownify }}
+          {{ if .attrlink }}</a>{{ end }}</p>
+        {{ end }}
+    </figcaption>
+  {{- end -}}
+</figure>
+{{- if $inGallery -}}</div>{{- end -}} <!-- Closing gallery div -->
