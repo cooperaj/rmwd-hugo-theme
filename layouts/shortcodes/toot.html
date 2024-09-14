@@ -1,11 +1,33 @@
+{{- /* Only enable if name params used (we need 'id') */ -}}
 {{- if .IsNamedParams -}}
 
+{{- /* Discover the sites configured user's home server */ -}}
 {{- $parts := split .Site.Params.mastodonName "@" -}}
-{{- $finger := getJSON (printf "https://%s/.well-known/webfinger?resource=acct:%s@%s" (index $parts 2) (index $parts 1) (index $parts 2)) -}}
-{{- $url := split (index $finger.aliases 0) "@" -}}
+{{- $url := "" -}}
+{{- with resources.GetRemote (printf "https://%s/.well-known/webfinger?resource=acct:%s@%s" (index $parts 2) (index $parts 1) (index $parts 2)) -}}
+  {{- with .Err -}}
+    {{- errorf "%s" . -}}
+  {{- else -}}
+    {{- $finger := .Content | transform.Unmarshal -}}
+    {{- $url = index (split (index $finger.aliases 0) "@") 0 -}}
+  {{- end -}}
+{{- else -}}
+  {{- errorf "Unable to finger %q" .Site.Params.mastodonName -}}
+{{ end }}
 
-{{- $toot := getJSON (printf "%s/api/v1/statuses/%s" (index $url 0) (.Get "id")) -}}
+{{- /* Grab toot with ID from users home server */ -}}
+{{- $toot := dict -}}
+{{- with resources.GetRemote (printf "%s/api/v1/statuses/%s" $url (.Get "id")) -}}
+  {{- with .Err -}}
+    {{- errorf "%s" . -}}
+  {{- else -}}
+    {{- $toot = .Content | transform.Unmarshal -}}
+  {{- end -}}
+{{- else -}}
+  {{- errorf "Unable to get toot %q" .Get "id" -}}
+{{ end }}
 
+{{- /* Replace emojis in user display name */ -}}
 {{- $displayName := $toot.account.display_name -}}
 {{- range $index, $emoji := $toot.account.emojis }}
   {{- $shortcode := printf ":%s:" $emoji.shortcode -}}
@@ -15,12 +37,14 @@
   {{- end -}}
 {{ end -}}
 
+{{- /* Grab toots source server accounting for authors web/domain setting */ -}}
 {{- $instanceHost := (urls.Parse $toot.account.url).Host -}}
 {{- $acParts := split $toot.account.acct "@" -}}
 {{- if eq (len $acParts) 1 -}} 
   {{- $instanceHost = index $parts 2 }}
 {{- end -}}
 
+{{- /* Grab toot authors avatar */ -}}
 {{- $avatar := $toot.account.avatar -}}
 {{- with resources.GetRemote $toot.account.avatar -}}
   {{- with .Err }}

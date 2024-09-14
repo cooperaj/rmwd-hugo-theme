@@ -1,0 +1,20 @@
+@use "sass:list";
+
+@use "utilities/css-variables" as cv;
+@use "utilities/derived-variables" as dv;
+@use "utilities/initial-variables" as iv;
+@use "utilities/functions" as fn;
+@use "themes/setup";
+
+$scheme-main-l: 96%;
+$scheme-main: hsl(iv.$scheme-h, iv.$scheme-s, $scheme-main-l);
+
+@include cv.bulma-theme($name: "rmwd") {
+  @include cv.register-vars(
+    (
+      "scheme-main-l": $scheme-main-l,
+    )
+  );
+
+  @include setup.setup-theme;
+}

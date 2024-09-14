@@ -1,6 +1,6 @@
 'use strict';
 
-import Viewer from 'libs/viewerjs';
+import Viewer from 'node_modules/viewerjs/dist/viewer.esm.js';
 
 /**
  * Create a mobile friendly lightbox browser around image galleries.

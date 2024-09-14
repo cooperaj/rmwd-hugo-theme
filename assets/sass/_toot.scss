@@ -1,3 +1,8 @@
+@use "utilities/initial-variables" as iv;
+@use "components/card";
+@use "grid/columns";
+@use "helpers/visibility";
+
 $toot-background-colour: #313543;
 $toot-account-colour: #9baec8;
 $toot-text-colour: #fff;
@@ -66,8 +71,14 @@ $toot-meta-colour: #606984;
             margin: 0 !important;
 
             img {
-                border-radius: $radius;
+                border-radius: iv.$radius;
             }
+        }
+    }
+
+    &-gallery {
+        img {
+            border-radius: iv.$radius;
         }
     }
 

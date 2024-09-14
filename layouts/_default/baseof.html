@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="theme-rmwd">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,13 @@
     {{ end }}
 
     {{ $sass := resources.Get "sass/main.scss" }}
-    {{ $style := $sass | resources.ToCSS (dict "outputStyle" "compressed" "targetPath" "main.css") | resources.PostCSS | resources.Fingerprint }}
+    {{ $opts := dict 
+      "outputStyle" "compressed"
+      "transpiler" "dartsass"
+      "targetPath" "main.css"
+      "includePaths" (slice "node_modules/bulma/sass")
+    }}
+    {{ $style := $sass | css.Sass $opts | css.PostCSS | resources.Fingerprint }}
     {{ if hugo.IsProduction }}
       {{ $style = $style | resources.PostProcess }}
     {{ end }}

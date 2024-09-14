@@ -1,28 +1,14 @@
 @charset "utf-8";
 
-@import "./fonts";
-@import "./bulma";
-@import "./syntax";
-@import "./navbar";
-@import "./article";
-@import "./hero";
-@import "./pagination";
-@import "./toot";
+@forward "./fonts";
+@forward "../node_modules/viewerjs/dist/viewer.css";
 
-$fa-font-path: '../fonts';
-@import "fontawesome/fontawesome";
-@import "fontawesome/brands";
-@import "fontawesome/solid";
+@forward "./bulma";
+@forward "./theme";
 
-@import "../libs/viewerjs/index.scss";
-
-h1, h2, h3, h4, h5, h6,
-.title, .subtitle {
-    font-family: $header-sans-serif;
-    font-weight: $weight-light;
-}
-.content {
-    h1, h2, h3, h4, h5, h6 {
-        font-weight: $weight-light;
-    }
-}
+@forward "./syntax";
+@forward "./navbar";
+@forward "./article";
+@forward "./hero";
+@forward "./pagination";
+@forward "./toot";

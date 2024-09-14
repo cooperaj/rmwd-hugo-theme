@@ -1,3 +1,7 @@
+@use "utilities/css-variables" as cv;
+@use "utilities/initial-variables" as iv;
+@use "utilities/derived-variables" as dv;
+
 .hero {
     @extend .hero;
 
@@ -6,7 +10,7 @@
         background-size: cover;
 
         .title, .subtitle {
-            text-shadow: 1px 1px 2px $black;
+            text-shadow: 1px 1px 2px iv.$black;
         }
     }
 
@@ -15,6 +19,14 @@
     }
 
     .title, .subtitle {
-        color: $white;
+        color: iv.$white;
+    }
+
+    .tag {
+        @include cv.register-vars(
+            ( 
+                "link-text": dv.$text,
+            )
+        );
     }
 }

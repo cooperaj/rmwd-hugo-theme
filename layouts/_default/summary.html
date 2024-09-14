@@ -3,7 +3,7 @@
         <header class="media">
             <div class="media-content">
                 <h2 class="p-name title is-size-4" itemprop="name"><a class="u-url" href='{{ .Permalink }}' itemprop="mainEntityOfPage">{{ .Title | safeHTML }}</a></h2>
-                <p class="subtitle is-size-6 post-meta">
+                <p class="post-meta is-size-6">
                     <time class="dt-published" datetime="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}" itemprop="datePublished">{{ .Date.Format "Mon, Jan 2, 2006" }}</time> &mdash;
                     {{ .FuzzyWordCount }} Words &mdash; 
                     {{ partial "reading-time" .ReadingTime }}

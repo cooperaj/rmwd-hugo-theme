@@ -1,8 +1,15 @@
+@use "utilities/css-variables" as cv;
+@use "utilities/initial-variables" as iv;
+
+@use "utilities/mixins" as mx;
+@use "components/card" as c;
+@use "elements/title" as t;
+
 section.articles {
     margin-top: -2.25rem;
     padding: 0;
 
-    @include from($desktop) {
+    @include mx.from(iv.$desktop) {
         margin-top: -7.25rem;
         padding: 3.5rem 1.5rem;
     }
@@ -21,11 +28,11 @@ article {
             text-align: center;
 
             // teeny phones
-            @include from(340px) {
+            @include mx.from(340px) {
                 text-align: right;
             }
 
-            @include from($tablet) {
+            @include mx.from(iv.$tablet) {
                 padding: 1.5rem 1.5rem 0 1.5rem;
             }
         }
@@ -36,17 +43,26 @@ article {
             &.columns {
                 margin-bottom: 0;
             }
+        }
 
+        header.media {
+            .title {
+                margin-bottom: 0;
+            }
+        }
+
+        .post-header, header.media {
             .post-meta {
                 @extend .subtitle;
-                font-size: $size-6;
+                font-size: iv.$size-6;
+                margin-top: 0.25rem;
 
                 a {
                     color: inherit;
 
                     i {
                         opacity: 0;
-                        transition: opacity $speed $easing;
+                        transition: opacity iv.$speed iv.$easing;
                     }
 
                     &:hover i {
@@ -64,7 +80,7 @@ article {
             }
 
             &.is-insta {
-                font-size: $size-5;
+                font-size: iv.$size-5;
             }
 
             .content {
@@ -84,6 +100,18 @@ article {
                     }
                 }
 
+                @for $i from 1 through 5 {
+                    h#{$i} {
+                        @include cv.register-vars(
+                            ( 
+                                "title-family": t.$title-family,
+                            )
+                        );
+
+                        font-family: var(--bulma-title-family);
+                    }
+                }
+
                 .highlight:not(:last-child) {
                     margin-bottom: 1rem;
                 }
@@ -95,7 +123,7 @@ article {
                         margin: 0;
     
                         img {
-                            box-shadow: $card-shadow;
+                            box-shadow: c.$card-shadow;
                             padding: 0.25rem;
                         }
                     }
@@ -104,11 +132,11 @@ article {
                 .haiku {
                     text-align: center;
                     font-style: italic;
-                    font-size: $size-5;
-                    font-weight: $weight-light;
+                    font-size: iv.$size-5;
+                    font-weight: iv.$weight-light;
 
-                    @include from($tablet) {
-                        font-size: $size-3;
+                    @include mx.from(iv.$tablet) {
+                        font-size: iv.$size-3;
                     }
                 }
             }
@@ -116,16 +144,16 @@ article {
 
         .post-footer {
             padding: 2.25rem;
-            background-color: $grey-darker;
-            color: $white;
+            background-color: iv.$grey-darker;
+            color: iv.$white;
 
             .title {
-                color: $white;
+                color: iv.$white;
                 margin-bottom: 0.75rem;
             }
 
             figure {
-                border: 1px solid $white;
+                border: 1px solid iv.$white;
             }
         }
 

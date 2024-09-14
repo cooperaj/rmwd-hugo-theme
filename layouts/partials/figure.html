@@ -31,7 +31,7 @@
 {{- end -}}
 
 {{- if $inGallery -}}<div class="column is-half-mobile is-one-quarter-tablet is-2-desktop">{{- end -}}
-<figure class="{{ $imgClass }}" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+<figure {{- if (ne $imgClass "") }}class="{{ $imgClass }}"{{ end }} itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
   <a href="{{ with .link }}{{.}}{{ else }}{{ $src }}{{ end }}" {{ with .size }}data-size="{{.}}"{{ end }} itemprop="contentUrl"> 
     <picture>
       <source type="image/webp" srcset="

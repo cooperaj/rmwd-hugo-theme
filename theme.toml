@@ -8,7 +8,7 @@ description = ""
 homepage = "https://github.com/cooperaj/rmwd-hugo-theme"
 tags = []
 features = []
-min_version = "0.40"
+min_version = "0.134.0"
 
 [author]
   name = "Adam Cooper"

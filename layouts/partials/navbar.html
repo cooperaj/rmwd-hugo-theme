@@ -10,6 +10,7 @@
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
             </a>
         </div>
 
@@ -54,7 +55,16 @@
                 {{ end }}
                 {{ with .Site.Params.mastodonName }}
                 {{ $parts := split . "@" }}
-                {{ $finger := getJSON (printf "https://%s/.well-known/webfinger?resource=acct:%s@%s" (index $parts 2) (index $parts 1) (index $parts 2)) }}
+                {{ $finger := dict }}
+                {{ with resources.GetRemote (printf "https://%s/.well-known/webfinger?resource=acct:%s@%s" (index $parts 2) (index $parts 1) (index $parts 2)) }}
+                    {{ with .Err }}
+                        {{ errorf "%s" . }}
+                    {{ else }}
+                        {{ $finger = .Content | transform.Unmarshal }}
+                    {{ end }}
+                {{ else }}
+                    {{ errorf "Unable to finger %q" .Site.Params.mastodonName }}
+                {{ end }}
                 <a rel="me" href="{{ index $finger.aliases 0 }}" class="navbar-item">
                     <span class="icon is-medium">
                         <i class="fab fa-mastodon fa-lg" aria-hidden="true"></i>

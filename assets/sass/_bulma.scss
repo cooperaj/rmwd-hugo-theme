@@ -1,35 +1,62 @@
+$rmwd-orange: hsl(13, 87%, 33%);
+$linkedin: hsl(201, 100%, 35%);
+$twitter: hsl(206, 82%, 63%);
+$github: hsl(0, 0%, 20%);
 
-// 1. Setup our customisation (Bulma utilities)
-@import "./bulma/utilities/initial-variables";
-@import "./bulma/utilities/functions";
+@use "utilities" with (
+    $scheme-h: 0,
+    $scheme-s: 0%,
 
-@import "./variables";
-@import "./bulma/utilities/derived-variables";
-@import "./custom-colours";
+    $family-primary: '"Raleway", "Helvetica", "Arial", sans-serif',
+    $family-secondary: '"Nunito", "Helvetica", "Arial", sans-serif',
 
-@import "./bulma/utilities/mixins";
-@import "./bulma/utilities/controls";
-@import "./bulma/utilities/extends";
+    $custom-colors: (
+        'link': $rmwd-orange,
+        'info': $rmwd-orange,
+        'rmwd-orange': $rmwd-orange,
+        'linkedin': $linkedin,
+        'twitter': $twitter,
+        'github': $github,
+    ),
 
-// Base stuff
-@import "./bulma/base/_all";
-@import "./bulma/layout/_all";
-@import "./bulma/helpers/_all";
+    $radius: 0.25rem,
+);
+
+@use "utilities/initial-variables" as iv;
+@use "utilities/derived-variables" as dv;
+
+@forward "base";
+@forward "layout";
+@forward "helpers";
 
 // Grid 
-@import "./bulma/grid/columns";
+@forward "grid";
 
 // Elements 
-@import "./bulma/elements/container";
-@import "./bulma/elements/content";
-@import "./bulma/elements/icon";
-@import "./bulma/elements/image";
-@import "./bulma/elements/notification";
-@import "./bulma/elements/other";
-@import "./bulma/elements/tag";
-@import "./bulma/elements/title";
+@forward "elements/content" with (
+    $content-heading-weight: iv.$weight-light,
+);
+@forward "elements/icon";
+@forward "elements/image";
+@forward "elements/notification";
+@forward "elements/tag";
+@use "elements/title" with (
+    $title-family: dv.$family-secondary,
+    $title-weight: iv.$weight-light,
+    $subtitle-family: dv.$family-secondary,
+    $subtitle-weight: iv.$weight-light
+);
 
 // Components
-@import "./bulma/components/card";
-@import "./bulma/components/navbar";
-@import "./bulma/components/media";
+@use "components/card" with (
+    $card-radius: iv.$radius,
+    $card-background-color: hsl(0, 0%, 100%),
+);
+@forward "./navbar";
+
+@use "themes/light";
+@use "themes/setup";
+:root {
+    @include light.light-theme;
+    @include setup.setup-theme;
+}

@@ -1,18 +1,32 @@
+@use "utilities/css-variables" as cv;
+@use "utilities/derived-variables" as dv;
+@use "utilities/initial-variables" as iv;
+@use "utilities/mixins" as mx;
+
+@use "components/navbar" as nb with (
+    $navbar-background-color: hsl(221, 14%, 21%)
+);
+
 main {
-    padding-top: $navbar-height;
+    padding-top: nb.$navbar-height;
 }
 
 .navbar {    
     &.is-transparent {
-        background-color: $grey-darker;
+        background-color: iv.$grey-darker;
 
         .navbar-brand {
-            height: $navbar-height;
+            height: nb.$navbar-height;
         }
     }
 
     .navbar-item {
-        color: $white;
+        color: iv.$white;
+        gap: 0;
+
+        &:hover, &:active, &:focus, &:focus-within {
+            background-color: transparent;
+        }
 
         img {
             max-height: 2.25rem; 
@@ -24,59 +38,60 @@ main {
     }
 
     .navbar-burger {
-        color: $white;
-        height: $navbar-height;
+        color: iv.$white;
+        height: nb.$navbar-height;
     }
 
     .title {
-        font-size: $size-4;
-        color: $white;
+        font-size: iv.$size-4;
+        color: iv.$white;
     }
 
     a {
-        color: $white;
-        fill: $white;
+        color: iv.$white;
+        fill: iv.$white;
 
         &:hover {
-            fill: $link;
+            fill: cv.getVar("link-text");;
+            color: cv.getVar("link-text");;
         }
     }
 }
 
-@include mobile() {
+@include mx.mobile() {
     .navbar .title {
-        font-size: $size-5;
+        font-size: iv.$size-5;
     }
 }
 
 // teeny phones
-@include until(340px) {
+@include mx.until(340px) {
     .navbar .title {
-        font-size: $size-6;
+        font-size: iv.$size-6;
     }
 }
 
-@include from($desktop) {
+@include mx.from(iv.$desktop) {
     main {
         padding-top: 0;
     }
 
     .navbar {
-        transition: background-color $speed $easing;
+        transition: background-color iv.$speed iv.$easing;
         
         &.is-transparent {
             background-color: transparent;
             background-image: none;
 
             .navbar-brand {
-                height: $navbar-desktop-height;
-                transition: height $speed $easing;
+                height: 6.25rem;
+                transition: height iv.$speed iv.$easing;
             }
             &.is-scrolled {
-                background-color: $grey-darker;
+                background-color: iv.$grey-darker;
 
                 .navbar-brand {
-                    height: $navbar-height;
+                    height: nb.$navbar-height;
                 }
             }
         }
