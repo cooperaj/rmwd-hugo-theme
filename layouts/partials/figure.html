@@ -23,7 +23,7 @@
   {{- $src = $resource.RelPermalink -}}
   {{- if .Parent -}} <!-- am nested shortcode -->
     {{- if eq .Parent.Name "gallery" -}} <!-- am inside a gallery -->
-      {{- $respSizes := slice "150" "275" "380" -}}
+      {{- $respSizes = slice "150" "275" "380" -}}
       {{- $inGallery = true -}}
       {{- $imgClass = "is-square" -}}
     {{- end -}}
