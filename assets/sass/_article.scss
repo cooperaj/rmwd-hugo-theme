@@ -84,8 +84,14 @@ article {
             }
 
             .content {
+                @include cv.register-vars(
+                    ( 
+                        "content-heading-family": t.$title-family,
+                    )
+                );
+
                 figure {
-                    margin-top: 1.5rem;
+                    margin-bottom: 1.5rem;
                     margin-left: 0;
                     margin-right: 0;
 
@@ -102,13 +108,7 @@ article {
 
                 @for $i from 1 through 5 {
                     h#{$i} {
-                        @include cv.register-vars(
-                            ( 
-                                "title-family": t.$title-family,
-                            )
-                        );
-
-                        font-family: var(--bulma-title-family);
+                        font-family: var(--bulma-content-heading-family);
                     }
                 }
 
