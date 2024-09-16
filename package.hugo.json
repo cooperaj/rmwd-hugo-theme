@@ -5,6 +5,7 @@
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.20",
     "postcss-cli": "^10.1.0",
+    "postcss-prune-var": "^1.1.2",
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "bulma": "^1.0.2",
     "viewerjs": "^1.11.6",

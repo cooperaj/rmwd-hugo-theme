@@ -17,8 +17,10 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
     ]
 });
 
+const pruneVar = require('postcss-prune-var');
+
 module.exports = {
      plugins: [
-         ...(process.env.HUGO_ENVIRONMENT === 'production' ? [ purgecss ] : [])
+         ...(process.env.HUGO_ENVIRONMENT === 'production' ? [ purgecss, pruneVar() ] : [])
      ]
  };
