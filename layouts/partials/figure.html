@@ -13,14 +13,14 @@
       {{- errorf "%s" . -}}
     {{- else -}}
       {{- $resource = . -}}
-      {{- $src = $resource.RelPermalink -}}
+      {{- $src = ($resource.Process "fit 2000x2000 q90 lanczos" ).RelPermalink -}}
     {{- end -}}
   {{- else -}}
     {{- errorf "Unable to get remote resource %q" .src -}}
   {{- end -}}
 {{- else -}}
   {{- $resource = .Page.Resources.GetMatch (printf "*%s*" .src) -}}
-  {{- $src = $resource.RelPermalink -}}
+  {{- $src = ($resource.Process "fit 2000x2000 q90 lanczos" ).RelPermalink -}}
   {{- if .Parent -}} <!-- am nested shortcode -->
     {{- if eq .Parent.Name "gallery" -}} <!-- am inside a gallery -->
       {{- $respSizes = slice "150" "275" "380" -}}
