@@ -28,7 +28,7 @@ main {
             background-color: transparent;
         }
 
-        img {
+        img, svg {
             max-height: 2.25rem; 
         }
 
@@ -52,8 +52,8 @@ main {
         fill: iv.$white;
 
         &:hover {
-            fill: cv.getVar("link-text");;
-            color: cv.getVar("link-text");;
+            fill: cv.getVar("link-text");
+            color: cv.getVar("link-text");
         }
     }
 }

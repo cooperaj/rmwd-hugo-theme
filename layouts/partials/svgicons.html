@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol viewBox="0 0 128 128" id="site-logo" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41;">
+        {{ $icon := resources.Get "images/icon-vector.svg" -}}
+        {{- $match := `(?s)<svg .*?>(.*)</svg>` -}}
+        {{- (replaceRE $match "$1" $icon.Content) | safeHTML }}
+    </symbol>
+    <symbol viewBox="0 0 32 32" id="keyoxide-logo" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+        {{ $icon := resources.Get "images/keyoxide.svg" -}}
+        {{- $match := `(?s)<svg .*?>(.*)</svg>` -}}
+        {{- (replaceRE $match "$1" $icon.Content) | safeHTML }}
+    </symbol>
+</svg>

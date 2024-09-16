@@ -1,8 +1,10 @@
+{{ partial "svgicons.html" }}
+
 <nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
             <a class="navbar-item" href="/">
-                <img src="{{ (resources.Get "images/icon-vector.svg").Permalink }}" width="32px" height="32px" alt="Site logo"/>
+                <svg width="32px" height="32px" alt="Site logo"><use href="#site-logo"/></svg>
                 <span class="navbar-item title">{{.Site.Title}}</span>
             </a>
         
@@ -40,7 +42,7 @@
                 {{ with .Site.Params.keyoxideURL }}
                 <a rel="me" href="https://keyoxide.org/{{ . }}" class="navbar-item">
                     <span class="icon is-medium">
-                        {{ (resources.Get "images/keyoxide.svg").Content | safeHTML }}
+                        <svg><use href="#keyoxide-logo"/></svg>
                     </span>
                     <span class="is-hidden-desktop">My Keyoxide profile</span>
                 </a>

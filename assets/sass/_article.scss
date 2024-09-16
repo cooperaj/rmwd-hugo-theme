@@ -108,7 +108,7 @@ article {
 
                 @for $i from 1 through 5 {
                     h#{$i} {
-                        font-family: var(--bulma-content-heading-family);
+                        font-family: cv.getVar("content-heading-family");
                     }
                 }
 
