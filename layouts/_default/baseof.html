@@ -35,6 +35,10 @@
     {{ partial "site-schema" . }}
     {{ partial "site-opengraph" . }}
 
+    {{ with .Site.Params.mastodonName }}
+    <meta name="fediverse:creator" content="{{ . }}">
+    {{ end }}
+
     {{ partial "ackee" . }}
   </head>
   <body>
