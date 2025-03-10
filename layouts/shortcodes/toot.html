@@ -4,10 +4,10 @@
 {{- /* Discover the sites configured user's home server */ -}}
 {{- $parts := split .Site.Params.mastodonName "@" -}}
 {{- $url := "" -}}
-{{- with resources.GetRemote (printf "https://%s/.well-known/webfinger?resource=acct:%s@%s" (index $parts 2) (index $parts 1) (index $parts 2)) -}}
+{{- with try (resources.GetRemote (printf "https://%s/.well-known/webfinger?resource=acct:%s@%s" (index $parts 2) (index $parts 1) (index $parts 2))) -}}
   {{- with .Err -}}
     {{- errorf "%s" . -}}
-  {{- else -}}
+  {{- else with .Value -}}
     {{- $finger := .Content | transform.Unmarshal -}}
     {{- $url = index (split (index $finger.aliases 0) "@") 0 -}}
   {{- end -}}
@@ -17,10 +17,10 @@
 
 {{- /* Grab toot with ID from users home server */ -}}
 {{- $toot := dict -}}
-{{- with resources.GetRemote (printf "%s/api/v1/statuses/%s" $url (.Get "id")) -}}
+{{- with try (resources.GetRemote (printf "%s/api/v1/statuses/%s" $url (.Get "id"))) -}}
   {{- with .Err -}}
     {{- errorf "%s" . -}}
-  {{- else -}}
+  {{- else with .Value -}}
     {{- $toot = .Content | transform.Unmarshal -}}
   {{- end -}}
 {{- else -}}
@@ -46,10 +46,10 @@
 
 {{- /* Grab toot authors avatar */ -}}
 {{- $avatar := $toot.account.avatar -}}
-{{- with resources.GetRemote $toot.account.avatar -}}
+{{- with try (resources.GetRemote $toot.account.avatar) -}}
   {{- with .Err }}
     {{- errorf "%s" . -}}
-  {{- else -}}
+  {{- else with .Value -}}
     {{- $avatar = .RelPermalink -}}
   {{- end -}}
 {{- else -}}
@@ -82,6 +82,25 @@
         {{ $toot.content | safeHTML }}
         {{ end }}
       </div>
+
+      {{ with $toot.media_attachments }}
+      <div class="toot-gallery {{- if gt (. | len) 1 }} fixed-grid has-2-cols{{ end -}}">
+        {{ if gt (. | len) 1 }}
+        <div class="columns is-multiline is-mobile is-variable is-1">
+          {{ range $index, $attachment := . }}
+          <div class="column is-half">
+            {{- $image := dict
+                "src" $attachment.url
+                "alt" $attachment.description
+            -}}
+            {{- partial "figure.html" $image -}}
+          </div>
+          {{ end}}
+        </div>
+        {{ else }}
+        {{ end }}
+      </div>
+      {{ end }}
 
       <div class="toot-meta">
         <a href="{{ $toot.url }}" class="u-url" target="_blank" rel="noopener noreferrer" itemprop="url">

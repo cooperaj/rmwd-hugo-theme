@@ -47,21 +47,13 @@
                     <span class="is-hidden-desktop">My Keyoxide profile</span>
                 </a>
                 {{ end }}
-                {{ with .Site.Params.twitterName }}
-                <a rel="me" href="https://twitter.com/{{ . }}" class="navbar-item">
-                    <span class="icon is-medium">
-                        <i class="fab fa-twitter fa-lg" aria-hidden="true"></i>
-                    </span>
-                    <span class="is-hidden-desktop">My Twitter profile</span>
-                </a>
-                {{ end }}
                 {{ with .Site.Params.mastodonName }}
                 {{ $parts := split . "@" }}
                 {{ $finger := dict }}
-                {{ with resources.GetRemote (printf "https://%s/.well-known/webfinger?resource=acct:%s@%s" (index $parts 2) (index $parts 1) (index $parts 2)) }}
+                {{ with try (resources.GetRemote (printf "https://%s/.well-known/webfinger?resource=acct:%s@%s" (index $parts 2) (index $parts 1) (index $parts 2))) }}
                     {{ with .Err }}
                         {{ errorf "%s" . }}
-                    {{ else }}
+                    {{ else with .Value }}
                         {{ $finger = .Content | transform.Unmarshal }}
                     {{ end }}
                 {{ else }}
