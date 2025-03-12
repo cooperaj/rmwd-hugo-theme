@@ -26,28 +26,14 @@
   {{- with .OutputFormats.Get "Atom" }}
     <link rel="self" type="{{ .MediaType.Type | html }}" hreflang="{{ or ($.Site.Language.LanguageCode) ($.Site.Language.Lang) }}" href="{{ .Permalink | safeURL }}" />
   {{- end }}
-  {{- if .IsTranslated -}}
-    {{ range .Translations }}
-      <link rel="alternate" type="application/atom+xml" hreflang="{{ or (.Site.Language.LanguageCode) (.Site.Language.Lang) }}" href="{{ .Permalink }}feed.xml" />
-    {{- end -}}
-    {{ range first 1 .AllTranslations }}
-      <link rel="alternate" type="application/atom+xml" hreflang="x-default" href="{{ .Permalink }}feed.xml" />
-    {{- end -}}
-  {{ end }}
-  {{- range .AlternativeOutputFormats }}
-    <link rel="alternate" type="{{ .MediaType.Type | html }}" hreflang="{{ or ($.Site.Language.LanguageCode) ($.Site.Language.Lang) }}" href="{{ .Permalink | safeURL }}" />
-  {{- end }}
-  {{- range .Site.Params.websubhubs }}
-    <link rel="hub" href="{{ . }}" />
-  {{- end -}}
-  <id>{{ site.BaseURL | relLangURL }}</id>
+  <id>{{ site.BaseURL | absLangURL }}</id>
   {{ with or .Lastmod .PublishDate .Date }}<updated>{{ .UTC.Format $iso8601 | safeHTML }}</updated>{{ end }}
   <author>
     <name>{{ .Site.Params.author.name }}</name>
   </author>
-  <generator>Hugo {{ hugo.Version }}</generator>
-  {{- with .Site.Params.brand.icon }}<icon>{{ . | absURL }}</icon>{{- end }}
-  {{- with .Site.Params.brand.logo }}<logo>{{ . | absURL }}</logo>{{- end }}
+  <generator uri="https://gohugo.io" version="{{ hugo.Version }}">Hugo</generator>
+  {{- with .Site.Params.icon }}<icon>{{ . | absURL }}</icon>{{- end }}
+  {{- with .Site.Params.logo }}<logo>{{ . | absURL }}</logo>{{- end }}
   {{- with .Site.Copyright }}<rights>© {{ . }} {{ now.Format "2006" }}</rights>{{- end }}
   {{- /*
     NOTE: sort by last modified date to keep updated content on top
@@ -59,55 +45,51 @@
     {{- $frontmatterpersons := .Params.authors }}
   <entry>
     {{ printf "%s%s%s%s%s" "<title>" "<![CDATA[" .Title "]]>" "</title>" | htmlUnescape | safeHTML }}
-    {{- range .AlternativeOutputFormats }}
-      <link rel="alternate" type="{{ .MediaType.Type | html }}" hreflang="{{ or ($.Site.Language.LanguageCode) ($.Site.Language.Lang) }}" href="{{ .Permalink | safeURL }}" />
+    {{- if not (.Params.image) }}
+      {{- range .AlternativeOutputFormats }}
+    <link rel="alternate" type="{{ .MediaType.Type | html }}" hreflang="{{ or ($.Site.Language.LanguageCode) ($.Site.Language.Lang) }}" href="{{ .Permalink | safeURL }}" />
+      {{- end }}
     {{- end }}
     <id>{{ .Permalink }}</id>
     {{ with or .Lastmod .PublishDate .Date }}<updated>{{ .UTC.Format $iso8601 | safeHTML }}</updated>{{ end }}
-    <summary type="html">{{ printf "<![CDATA[" | htmlUnescape | safeHTML }}{{- .Summary | replaceRE "(?m)(?s:<(style|script)[^>]*>[^<]*<\\/(style|script)>)" "" | htmlUnescape | safeHTML -}}{{ printf "]]>" | htmlUnescape | safeHTML }}</summary>
-    {{- /* used if .Content is empty
-      <content src="{{ .Permalink }}" />
-    */ -}}
+    {{ if not (eq (len .Summary) 0) -}}
+    <summary type="html">{{ printf "<![CDATA[" | htmlUnescape | safeHTML }}
+    {{- $summary_splits := split .Summary "<!--start-summary-->" -}}
+    {{- if eq (len $summary_splits) 2 -}}
+      {{- index $summary_splits 1 | replaceRE "(?m)(?s:<(style|script)[^>]*>[^<]*<\\/(style|script)>)" "" | htmlUnescape | safeHTML -}}
+    {{- else if (not .Params.do_not_summarise | default false ) -}}
+      {{- .Summary | replaceRE "(?m)(?s:<(style|script)[^>]*>[^<]*<\\/(style|script)>)" "" | htmlUnescape | safeHTML -}}
+    {{- end -}}
+    {{ printf "]]>" | htmlUnescape | safeHTML }}</summary>
+    {{- end }}
+    {{ if and (eq (len .Content) 0) (not (.Params.image)) -}}
+    <content src="{{ .Permalink }}" />
+    {{- else if .Params.image -}}
+      {{- $image := dict
+          "src" .Params.image 
+          "caption" .Params.description
+          "alt" .Title
+          "Page" .Page -}}
+      {{- $imageContent := partial "figure.html" $image -}}
     <content type="html">{{ printf "<![CDATA[" | htmlUnescape | safeHTML }}
-      {{- with .Params.images -}}
-        <img src="{{ index . 0 | absURL }}" />
-      {{- else -}}
-        {{- $images := $.Resources.ByType "image" -}}
-        {{- $featured := $images.GetMatch "*feature*" -}}
-        {{- if not $featured }}{{ $featured = $images.GetMatch "{*cover*,*thumbnail*}" }}{{ end -}}
-        {{- with $featured -}}
-          <img src="{{ $featured.Permalink }}" />
-        {{- else -}}
-          {{- with $.Site.Params.images -}}
-            <img src="{{ index . 0 | absURL }}" />
-          {{- end -}}
-        {{- end -}}
-      {{- end -}}
+      {{- $imageContent | replaceRE "(?m)(?s:<(style|script)[^>]*>[^<]*<\\/(style|script)>)" "" | htmlUnescape | safeHTML -}}
+      {{ printf "]]>" | htmlUnescape | safeHTML }}</content>
+    {{- else -}}
+    <content type="html">{{ printf "<![CDATA[" | htmlUnescape | safeHTML }}
       {{- .Content | replaceRE "(?m)(?s:<(style|script)[^>]*>[^<]*<\\/(style|script)>)" "" | htmlUnescape | safeHTML -}}
-    {{ printf "]]>" | htmlUnescape | safeHTML }}</content>
+      {{ printf "]]>" | htmlUnescape | safeHTML }}</content>
+    {{- end }}
     <author>
       <name>{{ .Param "author.name" }}</name>
     </author>
-    {{- with (.GetTerms "categories") }}{{ range . -}}
+    {{ with (.GetTerms "categories") }}{{ range . -}}
       <category term="{{ .LinkTitle | lower }}" label="{{ .LinkTitle }}" scheme="{{ .Permalink }}" />
     {{ end }}{{ end -}}
     {{ with (.GetTerms "tags") }}{{ range . -}}
       <category term="{{ .LinkTitle | lower }}" label="{{ .LinkTitle }}" scheme="{{ .Permalink }}" />
-    {{ end }}{{ end }}
-    {{- /*
-      <contributor>
-        <name></name>
-      </contributor>
-    */ -}}
+    {{ end }}{{- end -}}
     {{ with or .PublishDate .Date .Lastmod }}<published>{{ .UTC.Format $iso8601 | safeHTML }}</published>{{ end }}
-    {{- with .Site.Copyright }}<rights>{{ . }}</rights>{{- end }}
-    {{- /* Only used if this entry is a copy. See: https://validator.w3.org/feed/docs/atom.html
-      <source>
-        <id></id>
-        <title></title>
-        <updated></updated>
-      </source>
-    */ -}}
+    {{ with .Site.Copyright }}<rights>{{ . }}</rights>{{- end }}
   </entry>
   {{- end }}
 </feed>
