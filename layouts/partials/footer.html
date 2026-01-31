@@ -7,6 +7,10 @@
                 &bullet; 
               {{ end -}}
             {{- end -}}
+            {{- with .GetPage "/about" -}}
+              <a href="{{ .RelPermalink  }}">About </a>
+              &bullet;
+            {{ end -}}
             {{- with .GetPage "/privacy" -}}
               <a href="{{ .RelPermalink  }}">Privacy </a>
               &bullet;

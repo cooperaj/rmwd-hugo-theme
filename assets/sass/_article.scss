@@ -104,6 +104,33 @@ article {
                         margin-top: 0.5rem;
                         margin-left: 1rem;
                     }
+
+                    @include mx.mobile {
+                        &.is-pullout-right {
+                            width: 100%;
+                            margin-top: 0;
+                            margin-left: 0;
+                            margin-right: 0;
+                        }
+                    }
+
+                    @include mx.tablet {
+                        &.is-pullout-right {
+                            width: 35%;
+                            margin-top: 0;
+                            margin-left: 1rem;
+                            float: right !important;
+                        }
+                    }
+
+                    @include mx.desktop {
+                        &.is-pullout-right {
+                            width: 30%;
+                            margin-top: 0;
+                            margin-left: 1rem;
+                            float: right !important;
+                        }
+                    }
                 }
 
                 @for $i from 1 through 5 {

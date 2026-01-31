@@ -18,11 +18,6 @@
 
         <div id="navMenu" class="navbar-menu">
             <div class="navbar-end">
-                {{ with .Site.GetPage "page" "about" }}
-                <a href="{{ .RelPermalink }}" class="navbar-item">
-                    About
-                </a>
-                {{ end }}
                 {{ with .Site.Params.linkedInName }}
                 <a rel="me" href="https://www.linkedin.com/in/{{ . }}" class="navbar-item">
                     <span class="icon is-medium">
